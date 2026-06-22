@@ -1,5 +1,13 @@
-import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import {
+  FileCheckIcon,
+  BriefcaseIcon,
+  CoinsIcon,
+  MapPinIcon,
+  CalendarIcon,
+  TagIcon,
+  ArrowRightIcon,
+} from "@/components/icons";
 
 export interface Opportunity {
   slug: string;
@@ -16,56 +24,80 @@ export interface Opportunity {
   href: string;
 }
 
+const TYPE = {
+  tender: { label: "Tender", Icon: FileCheckIcon, accent: "text-[#003399]", chip: "bg-[#003399]/10 text-[#003399]", purpose: "Procurement / call for proposals" },
+  job: { label: "Job", Icon: BriefcaseIcon, accent: "text-primary", chip: "bg-primary/10 text-primary", purpose: "Career / internship" },
+  grant: { label: "Grant", Icon: CoinsIcon, accent: "text-accent", chip: "bg-accent/15 text-[#8a6a00]", purpose: "Funding for entrepreneurs" },
+} as const;
+
 export function OpportunityCard({ item }: { item: Opportunity }) {
-  const typeLabels = { tender: "Tender", job: "Job", grant: "Grant" };
-  const typeColors = {
-    tender: "bg-[#003399] text-white",
-    job: "bg-primary text-white",
-    grant: "bg-accent text-text",
-  };
-  const statusColors = {
-    open: "bg-emerald-100 text-emerald-800",
-    closed: "bg-gray-100 text-gray-600",
-    ongoing: "bg-blue-100 text-blue-800",
-  };
-  const statusLabels = { open: "Open", closed: "Closed", ongoing: "Ongoing" };
+  const t = TYPE[item.type];
+  const isOpen = item.status === "open";
 
   return (
     <Link
       href={item.href}
-      className={`group flex overflow-hidden rounded-2xl bg-white shadow-sm ring-1 transition hover:shadow-lg ${
-        item.status === "closed" ? "opacity-75 ring-black/5" : "ring-black/5"
+      className={`group relative flex overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lg ${
+        isOpen ? "" : "opacity-90"
       }`}
     >
-      {item.image && (
-        <div className="relative hidden w-32 shrink-0 sm:block lg:w-40">
-          <Image src={item.image} alt="" fill className="object-cover" sizes="160px" />
+      <span
+        aria-hidden
+        className={`w-1.5 shrink-0 ${isOpen ? "bg-emerald-500" : "bg-slate-300"}`}
+      />
+
+      <div className="flex flex-1 gap-4 p-5">
+        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${t.chip}`}>
+          <t.Icon className="h-6 w-6" />
         </div>
-      )}
-      <div className="flex flex-1 flex-col p-5">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${statusColors[item.status]}`}>
-            {statusLabels[item.status]}
-          </span>
-          <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${typeColors[item.type]}`}>
-            {typeLabels[item.type]}
-          </span>
-          {item.country && (
-            <span className="text-xs text-text-muted">{item.country}</span>
-          )}
+
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold ${
+                isOpen ? "bg-emerald-100 text-emerald-800" : "bg-slate-100 text-slate-600"
+              }`}
+            >
+              <span className={`h-1.5 w-1.5 rounded-full ${isOpen ? "bg-emerald-500" : "bg-slate-400"}`} />
+              {isOpen ? "Open" : "Closed"}
+            </span>
+            <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${t.chip}`}>{t.label}</span>
+          </div>
+
+          <h3 className="mt-2.5 font-heading text-lg font-bold leading-snug text-text group-hover:text-primary line-clamp-2">
+            {item.title}
+          </h3>
+          <p className="mt-1 text-xs font-medium uppercase tracking-wide text-text-muted/70">{t.purpose}</p>
+
+          <p className="mt-2 text-sm leading-relaxed text-text-muted line-clamp-2">{item.excerpt}</p>
+
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-text-muted">
+            {item.country && (
+              <span className="inline-flex items-center gap-1.5">
+                <MapPinIcon className="h-4 w-4 text-text-muted/60" />
+                {item.country}
+              </span>
+            )}
+            {item.deadlineLabel && (
+              <span
+                className={`inline-flex items-center gap-1.5 font-semibold ${
+                  isOpen ? "text-emerald-700" : "text-text-muted"
+                }`}
+              >
+                <CalendarIcon className="h-4 w-4" />
+                {item.deadlineLabel}
+              </span>
+            )}
+            {item.reference && (
+              <span className="inline-flex items-center gap-1.5">
+                <TagIcon className="h-4 w-4 text-text-muted/60" />
+                {item.reference}
+              </span>
+            )}
+          </div>
         </div>
-        <h3 className="mt-2 font-heading text-base font-bold text-primary group-hover:text-primary-light line-clamp-2">
-          {item.title}
-        </h3>
-        {item.reference && (
-          <p className="mt-1 text-xs text-text-muted">Ref: {item.reference}</p>
-        )}
-        <p className="mt-2 flex-1 text-sm text-text-muted line-clamp-2">{item.excerpt}</p>
-        {item.deadlineLabel && (
-          <p className={`mt-3 text-xs font-semibold ${item.status === "open" ? "text-emerald-700" : "text-text-muted"}`}>
-            {item.deadlineLabel}
-          </p>
-        )}
+
+        <ArrowRightIcon className="hidden h-5 w-5 shrink-0 self-center text-text-muted/40 transition group-hover:translate-x-1 group-hover:text-primary lg:block" />
       </div>
     </Link>
   );

@@ -9,7 +9,7 @@ export function img(path: string): string {
 export const heroImages = {
   home: img("/wp-content/uploads/2021/09/DSC_5739_1-scaled.jpg"),
   projects: img("/wp-content/uploads/2025/06/1-IMG_20250307_134950.jpg"),
-  tenders: img("/wp-content/uploads/2022/04/11-scaled.jpg"),
+  tenders: "/hero/tenders.png",
   jobs: img("/wp-content/uploads/2022/10/13.jpg"),
   media: img("/wp-content/uploads/2022/10/1665741264124.jpg"),
 } as const;

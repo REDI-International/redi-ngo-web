@@ -1,7 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ImageHero } from "@/components/ImageHero";
-import { PhotoGrid } from "@/components/PhotoGrid";
 import { SocialStoryCard, SocialFollowCard } from "@/components/SocialStoryCard";
+import { PhotoGallery } from "@/components/PhotoGallery";
 import { galleryPhotos, heroImages } from "@/content/media";
 import { getSocialStories, socialPages, socialLinks } from "@/lib/social";
 
@@ -72,7 +72,7 @@ export default async function MediaPage({
           <h2 className="font-heading text-2xl font-bold text-primary">{t("photoGallery")}</h2>
           <p className="mt-2 text-text-muted">{t("photoGalleryDesc")}</p>
           <div className="mt-8">
-            <PhotoGrid photos={galleryPhotos} />
+            <PhotoGallery photos={galleryPhotos} />
           </div>
         </div>
       </section>

@@ -1,6 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ImageHero } from "@/components/ImageHero";
 import { StoryCard } from "@/components/StoryCard";
 import { getNewsArticles } from "@/lib/content";
+import { heroImages } from "@/content/media";
 
 export async function generateMetadata({
   params,
@@ -20,19 +22,24 @@ export default async function NewsPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("news");
-  const articles = getNewsArticles(24);
+  const articles = getNewsArticles(25);
+  const [featured, ...rest] = articles;
 
   return (
     <>
-      <section className="bg-primary py-16 text-white">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h1 className="font-heading text-4xl font-bold">{t("title")}</h1>
-          <p className="mt-4 max-w-2xl text-white/85">{t("subtitle")}</p>
-        </div>
-      </section>
+      <ImageHero
+        title={t("title")}
+        subtitle={t("subtitle")}
+        image={heroImages.media}
+      />
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
+        {featured && (
+          <div className="mb-10">
+            <StoryCard article={featured} readMore={t("readMore")} featured />
+          </div>
+        )}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map((article) => (
+          {rest.map((article) => (
             <StoryCard key={article.slug} article={article} readMore={t("readMore")} />
           ))}
         </div>

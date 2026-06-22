@@ -66,6 +66,10 @@
     "volunteer": "Volunteer",
     "donate": "Support REDI",
     "tendersDesc": "Procurement, grants, and calls for proposals on EU-funded projects.",
+    "tendersIntro": "REDI publishes procurement tenders, grants, and calls for proposals to deliver our EU-funded projects. Suppliers, consultants, and organisations can submit bids while an opportunity is open.",
+    "jobsIntro": "Open roles, internships, and expert positions across REDI's country offices. We hire people who want to help Roma entrepreneurs build sustainable businesses.",
+    "howToApply": "How to apply",
+    "howToApplyDesc": "Open the opportunity for the full brief, required documents, and submission email. Make sure to submit before the deadline shown on each listing.",
     "volunteerDesc": "Contribute your skills to support Roma entrepreneurs across Europe.",
     "donateDesc": "Help us expand access to finance and training for Roma communities."
   },
