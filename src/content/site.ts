@@ -6,8 +6,9 @@ export const siteConfig = {
   url: "https://redi-ngo.eu",
   email: "info@redi-ngo.eu",
   social: {
-    facebook: "https://www.facebook.com/REDINGO",
-    linkedin: "https://www.linkedin.com/company/redi-ngo",
+    facebook: "https://www.facebook.com/REDI2018",
+    instagram: "https://www.instagram.com/redi.ngo/",
+    linkedin: "https://www.linkedin.com/company/redi-roma-economic-development-initiative",
     twitter: "https://twitter.com/REDINGO",
   },
 } as const;
@@ -17,6 +18,12 @@ export const stats = [
   { value: "500+", label: "Entrepreneurs supported" },
   { value: "€2M+", label: "Funding facilitated" },
   { value: "29", label: "Network partners" },
+] as const;
+
+export const offices = [
+  { country: "Romania", city: "Bucharest", address: "Str. Colonel Ștefan Stoica Nr. 29, Ap. 57, Sector 1, București" },
+  { country: "North Macedonia", city: "Skopje", address: "Miladin Popovikj 4/1a, Skopje" },
+  { country: "Serbia", city: "Belgrade", address: "Majke Jevrosime 51, Belgrade" },
 ] as const;
 
 export const countries = [
@@ -31,7 +38,8 @@ export const countries = [
 
 export const navItems = [
   { href: "/projects", labelKey: "nav.projects" },
-  { href: "/work-with-us", labelKey: "nav.workWithUs" },
+  { href: "/work-with-us/tenders", labelKey: "nav.tenders" },
+  { href: "/work-with-us/jobs", labelKey: "nav.jobs" },
   { href: "/media", labelKey: "nav.media" },
   { href: "/about", labelKey: "nav.about" },
   { href: "/news", labelKey: "nav.news" },

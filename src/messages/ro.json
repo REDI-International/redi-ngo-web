@@ -6,6 +6,8 @@
     "news": "Știri",
     "media": "Media",
     "workWithUs": "Colaborăm",
+    "tenders": "Licitații",
+    "jobs": "Joburi",
     "contact": "Contact"
   },
   "home": {
@@ -17,7 +19,8 @@
     "supportRedi": "Susține REDI",
     "euProjects": "Proiecte finanțate de UE",
     "euProjectsDesc": "Programe active finanțate de Uniunea Europeană și parteneri internaționali.",
-    "ourWork": "Munca noastră în imagini",
+    "fromSocial": "Din social media",
+    "fromSocialDesc": "Ultimele fotografii și povești de pe Facebook și Instagram.",
     "viewGallery": "Galerie completă",
     "openOpportunitiesDesc": "Achiziții, granturi, cariere și stagii în programele REDI.",
     "ourImpact": "Impactul nostru",
@@ -68,7 +71,23 @@
   },
   "media": {
     "title": "Media și galerie",
-    "subtitle": "Fotografii de la evenimentele, activitățile comunitare și programele finanțate de UE."
+    "subtitle": "Fotografii de la evenimentele, activitățile comunitare și programele finanțate de UE.",
+    "socialStories": "Povești din social media",
+    "socialStoriesDesc": "Urmărește REDI pe Facebook și Instagram pentru noutăți din teren.",
+    "followFacebook": "Urmărește pe Facebook",
+    "followInstagram": "Urmărește pe Instagram",
+    "photoGallery": "Galerie foto",
+    "photoGalleryDesc": "Fotografii din programele REDI și evenimentele comunitare."
+  },
+  "explorer": {
+    "search": "Caută după titlu, referință sau țară…",
+    "country": "Țară",
+    "allCountries": "Toate țările",
+    "open": "Deschise",
+    "closed": "Închise",
+    "all": "Toate",
+    "noResults": "Niciun rezultat pentru filtrele selectate.",
+    "showing": "rezultate afișate"
   },
   "contact": {
     "title": "Contactează-ne",

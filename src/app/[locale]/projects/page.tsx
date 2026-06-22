@@ -33,7 +33,8 @@ export default async function ProjectsPage({
         title={t("title")}
         subtitle={t("subtitle")}
         image={heroImages.projects}
-        badge="🇪🇺 EU-Funded Programmes"
+        badge="EU-Funded Programmes"
+        euBadge
         primaryCta={{ label: t("active"), href: "#active" }}
         secondaryCta={{ label: "Open tenders", href: "/work-with-us/tenders" }}
       />

@@ -1,8 +1,8 @@
+import { Suspense } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ImageHero } from "@/components/ImageHero";
-import { OpportunityCard } from "@/components/OpportunityCard";
-import { getTenders, toOpportunity } from "@/lib/content";
-import { heroImages } from "@/content/media";
+import { OpportunityExplorer } from "@/components/OpportunityExplorer";
+import { getTenders, toOpportunity, heroImages } from "@/lib/content";
 import { classifyOpportunity } from "@/lib/opportunities";
 
 export async function generateMetadata({
@@ -23,7 +23,9 @@ export default async function TendersPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("workWithUs");
-  const tenders = getTenders().map((item) =>
+  const tExplorer = await getTranslations("explorer");
+
+  const items = getTenders().map((item) =>
     toOpportunity(item, classifyOpportunity(item.slug, item.title) === "grant" ? "grant" : "tender"),
   );
 
@@ -33,19 +35,27 @@ export default async function TendersPage({
         title={t("tenders")}
         subtitle={t("tendersDesc")}
         image={heroImages.tenders}
-        badge="🇪🇺 EU Funded — Procurement"
+        badge="EU Funded — Procurement"
+        euBadge
         backLink={{ label: t("title"), href: "/work-with-us" }}
-        secondaryCta={{ label: "View jobs", href: "/work-with-us/jobs" }}
+        secondaryCta={{ label: t("jobs"), href: "/work-with-us/jobs" }}
       />
       <section className="mx-auto max-w-5xl px-4 py-16 lg:px-8">
-        <p className="mb-8 text-sm text-text-muted">
-          {tenders.length} open procurement opportunities across the Western Balkans and Türkiye.
-        </p>
-        <div className="grid gap-4">
-          {tenders.map((item) => (
-            <OpportunityCard key={item.slug} item={item} />
-          ))}
-        </div>
+        <Suspense fallback={<div className="h-48 animate-pulse rounded-xl bg-surface-dark" />}>
+          <OpportunityExplorer
+            items={items}
+            labels={{
+              search: tExplorer("search"),
+              country: tExplorer("country"),
+              allCountries: tExplorer("allCountries"),
+              open: tExplorer("open"),
+              closed: tExplorer("closed"),
+              all: tExplorer("all"),
+              noResults: tExplorer("noResults"),
+              showing: tExplorer("showing"),
+            }}
+          />
+        </Suspense>
       </section>
     </>
   );

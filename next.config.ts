@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       { protocol: "https", hostname: "redi-ngo.eu", pathname: "/wp-content/**" },
+      { protocol: "https", hostname: "*.fbcdn.net" },
+      { protocol: "https", hostname: "*.cdninstagram.com" },
     ],
   },
   async headers() {

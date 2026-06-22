@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { navItems, siteConfig } from "@/content/site";
+import { navItems } from "@/content/site";
 
 export function Header() {
   const t = useTranslations();
@@ -13,12 +14,16 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-surface-dark bg-surface/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
-            R
-          </div>
-          <span className="font-heading text-lg font-bold text-primary">{siteConfig.name}</span>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
+        <Link href="/" className="flex items-center" aria-label="REDI — Roma Entrepreneurship Development Initiative">
+          <Image
+            src="/brand/redi-logo.png"
+            alt="REDI — Roma Entrepreneurship Development Initiative"
+            width={400}
+            height={189}
+            priority
+            className="h-10 w-auto lg:h-12"
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">

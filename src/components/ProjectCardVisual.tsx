@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import type { Project } from "@/content/projects";
 import { projectImages } from "@/content/media";
+import { EUFlag } from "@/components/EUEmblem";
 
 export function ProjectCardVisual({
   project,
@@ -44,8 +45,8 @@ export function ProjectCardVisual({
             {project.status}
           </span>
           {project.funder === "European Union" && (
-            <span className="rounded-full bg-[#003399] px-3 py-1 text-xs font-bold text-white">
-              🇪🇺 EU Funded
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-xs font-bold text-[#003399]">
+              <EUFlag size={12} /> EU Funded
             </span>
           )}
         </div>

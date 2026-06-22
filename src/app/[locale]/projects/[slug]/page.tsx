@@ -37,7 +37,8 @@ export default async function ProjectDetailPage({
         title={project.title}
         subtitle={project.summary}
         image={project.image!}
-        badge={project.funder === "European Union" ? "🇪🇺 EU Funded" : project.programme}
+        badge={project.funder === "European Union" ? "EU Funded" : project.programme}
+        euBadge={project.funder === "European Union"}
         backLink={{ label: "Projects", href: "/projects" }}
       />
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8">

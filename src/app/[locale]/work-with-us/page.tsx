@@ -2,9 +2,10 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { ImageHero } from "@/components/ImageHero";
+import { EUBadge } from "@/components/EUEmblem";
 import { OpportunityCard } from "@/components/OpportunityCard";
-import { getTenders, getJobs, toOpportunity } from "@/lib/content";
-import { heroImages } from "@/content/media";
+import { getTenders, getJobs, toOpportunity, heroImages } from "@/lib/content";
+import { getFeaturedSocialStories } from "@/lib/social";
 import { classifyOpportunity } from "@/lib/opportunities";
 
 export async function generateMetadata({
@@ -26,28 +27,48 @@ export default async function WorkWithUsPage({
   setRequestLocale(locale);
   const t = await getTranslations("workWithUs");
 
-  const recentTenders = getTenders(4).map((item) =>
-    toOpportunity(item, classifyOpportunity(item.slug, item.title) === "grant" ? "grant" : "tender"),
-  );
-  const recentJobs = getJobs(4).map((item) => toOpportunity(item, "job"));
+  const recentTenders = getTenders()
+    .filter((item) => item.parsedStatus === "open")
+    .slice(0, 4)
+    .map((item) =>
+      toOpportunity(item, classifyOpportunity(item.slug, item.title) === "grant" ? "grant" : "tender"),
+    );
+  const recentJobs = getJobs()
+    .filter((item) => item.parsedStatus === "open")
+    .slice(0, 4)
+    .map((item) => toOpportunity(item, "job"));
+
+  const heroImage = heroImages.home;
+  const socialImages = getFeaturedSocialStories(2);
+  const tenderCardImage = socialImages[0]?.image ?? heroImages.tenders;
+  const jobCardImage = socialImages[1]?.image ?? heroImages.jobs;
+
+  const openTenderCount = getTenders().filter((t) => t.parsedStatus === "open").length;
+  const openJobCount = getJobs().filter((j) => j.parsedStatus === "open").length;
 
   return (
     <>
       <ImageHero
         title={t("title")}
         subtitle={t("subtitle")}
-        image={heroImages.tenders}
-        badge="🇪🇺 EU Funded Opportunities"
+        image={heroImage}
+        badge="EU Funded Opportunities"
+        euBadge
       />
 
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-3">
           <Link href="/work-with-us/tenders" className="group relative overflow-hidden rounded-2xl lg:col-span-2 lg:row-span-2">
             <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[400px]">
-              <Image src={heroImages.tenders} alt="" fill className="object-cover transition group-hover:scale-105" sizes="66vw" />
+              <Image src={tenderCardImage} alt="" fill className="object-cover transition group-hover:scale-105" sizes="66vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
               <div className="absolute bottom-0 p-8">
-                <span className="rounded-full bg-[#003399] px-3 py-1 text-xs font-bold text-white">🇪🇺 TENDERS</span>
+                <EUBadge label="Tenders" />
+                {openTenderCount > 0 && (
+                  <span className="ml-2 rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold text-white">
+                    {openTenderCount} open
+                  </span>
+                )}
                 <h2 className="mt-3 font-heading text-3xl font-bold text-white">{t("tenders")}</h2>
                 <p className="mt-2 text-white/80">{t("tendersDesc")}</p>
                 <span className="mt-4 inline-block text-sm font-semibold text-accent">View all →</span>
@@ -57,10 +78,15 @@ export default async function WorkWithUsPage({
 
           <Link href="/work-with-us/jobs" className="group relative overflow-hidden rounded-2xl">
             <div className="relative aspect-[16/10]">
-              <Image src={heroImages.jobs} alt="" fill className="object-cover transition group-hover:scale-105" sizes="33vw" />
+              <Image src={jobCardImage} alt="" fill className="object-cover transition group-hover:scale-105" sizes="33vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
               <div className="absolute bottom-0 p-6">
                 <span className="rounded-full bg-primary px-3 py-1 text-xs font-bold text-white">JOBS</span>
+                {openJobCount > 0 && (
+                  <span className="ml-2 rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold text-white">
+                    {openJobCount} open
+                  </span>
+                )}
                 <h2 className="mt-2 font-heading text-xl font-bold text-white">{t("jobs")}</h2>
                 <span className="mt-2 inline-block text-sm font-semibold text-accent">View all →</span>
               </div>

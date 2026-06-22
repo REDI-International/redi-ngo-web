@@ -6,6 +6,8 @@
     "news": "News",
     "media": "Media",
     "workWithUs": "Work With Us",
+    "tenders": "Tenders",
+    "jobs": "Jobs",
     "contact": "Contact"
   },
   "home": {
@@ -17,7 +19,8 @@
     "supportRedi": "Support REDI",
     "euProjects": "EU-Funded Projects",
     "euProjectsDesc": "Active programmes funded by the European Union and international partners.",
-    "ourWork": "Our Work in Pictures",
+    "fromSocial": "From our social media",
+    "fromSocialDesc": "Latest photos and stories from Facebook and Instagram.",
     "viewGallery": "Full gallery",
     "openOpportunitiesDesc": "Procurement, grants, careers and internships on REDI programmes.",
     "ourImpact": "Our Impact",
@@ -68,7 +71,23 @@
   },
   "media": {
     "title": "Media & Gallery",
-    "subtitle": "Photos from our events, community work, and EU-funded programmes across Europe."
+    "subtitle": "Photos from our events, community work, and EU-funded programmes across Europe.",
+    "socialStories": "Social media stories",
+    "socialStoriesDesc": "Follow REDI on Facebook and Instagram for the latest from the field.",
+    "followFacebook": "Follow on Facebook",
+    "followInstagram": "Follow on Instagram",
+    "photoGallery": "Photo gallery",
+    "photoGalleryDesc": "Archive photos from REDI programmes and community events."
+  },
+  "explorer": {
+    "search": "Search by title, reference, or country…",
+    "country": "Country",
+    "allCountries": "All countries",
+    "open": "Open",
+    "closed": "Closed",
+    "all": "All",
+    "noResults": "No results match your filters.",
+    "showing": "results shown"
   },
   "contact": {
     "title": "Contact Us",

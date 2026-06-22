@@ -36,14 +36,23 @@ export default async function JobDetailPage({
           <Link href="/work-with-us/jobs" className="text-sm text-white/70 hover:text-accent">
             ← Back to Jobs
           </Link>
-          <span className="mt-4 block text-xs font-bold uppercase tracking-wide text-accent">
-            Job Opportunity
-          </span>
-          <h1 className="mt-2 font-heading text-2xl font-bold lg:text-3xl">{job.title}</h1>
-          {job.country && <p className="mt-2 text-white/80">{job.country}</p>}
-          {job.deadline && (
-            <p className="mt-4 text-sm font-semibold text-red-300">Deadline: {job.deadline}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <span className={`rounded-full px-3 py-1 text-xs font-bold ${
+              job.parsedStatus === "open" ? "bg-emerald-400 text-emerald-950" : "bg-white/20 text-white"
+            }`}>
+              {job.parsedStatus === "open" ? "Open" : "Closed"}
+            </span>
+            {job.country && (
+              <span className="rounded-full bg-white/10 px-3 py-1 text-xs">{job.country}</span>
+            )}
+          </div>
+          <h1 className="mt-4 font-heading text-2xl font-bold lg:text-3xl">{job.title}</h1>
+          {job.reference && (
+            <p className="mt-2 text-sm text-white/70">Reference: {job.reference}</p>
           )}
+          <p className={`mt-3 text-sm font-semibold ${job.parsedStatus === "open" ? "text-emerald-300" : "text-white/60"}`}>
+            {job.deadlineLabel}
+          </p>
         </div>
       </section>
       <article className="mx-auto max-w-3xl px-4 py-12 lg:px-8">

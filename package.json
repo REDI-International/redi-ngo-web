@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "extract": "tsx scripts/extract-content.ts",
+    "fetch-social": "tsx scripts/fetch-social.ts",
     "test": "vitest run",
     "test:e2e": "playwright test"
   },

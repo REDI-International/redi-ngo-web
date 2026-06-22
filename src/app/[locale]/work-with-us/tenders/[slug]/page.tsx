@@ -37,10 +37,23 @@ export default async function TenderDetailPage({
           <Link href="/work-with-us/tenders" className="text-sm text-white/70 hover:text-accent">
             ← Back to Tenders
           </Link>
-          {tender.publishedAt && (
-            <time className="mt-4 block text-sm text-white/70">{tender.publishedAt}</time>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <span className={`rounded-full px-3 py-1 text-xs font-bold ${
+              tender.parsedStatus === "open" ? "bg-emerald-400 text-emerald-950" : "bg-white/20 text-white"
+            }`}>
+              {tender.parsedStatus === "open" ? "Open" : "Closed"}
+            </span>
+            {tender.country && (
+              <span className="rounded-full bg-white/10 px-3 py-1 text-xs">{tender.country}</span>
+            )}
+          </div>
+          <h1 className="mt-4 font-heading text-2xl font-bold lg:text-3xl">{tender.title}</h1>
+          {tender.reference && (
+            <p className="mt-2 text-sm text-white/70">Reference: {tender.reference}</p>
           )}
-          <h1 className="mt-2 font-heading text-2xl font-bold lg:text-3xl">{tender.title}</h1>
+          <p className={`mt-3 text-sm font-semibold ${tender.parsedStatus === "open" ? "text-emerald-300" : "text-white/60"}`}>
+            {tender.deadlineLabel}
+          </p>
         </div>
       </section>
       <article className="mx-auto max-w-3xl px-4 py-12 lg:px-8">
