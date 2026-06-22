@@ -1,9 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ImageHero } from "@/components/ImageHero";
 import { OpportunityCard } from "@/components/OpportunityCard";
-import { getTenders, toOpportunity } from "@/lib/content";
+import { getJobs, toOpportunity } from "@/lib/content";
 import { heroImages } from "@/content/media";
-import { classifyOpportunity } from "@/lib/opportunities";
 
 export async function generateMetadata({
   params,
@@ -12,10 +11,10 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "workWithUs" });
-  return { title: t("tenders") };
+  return { title: t("jobs") };
 }
 
-export default async function TendersPage({
+export default async function JobsPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -23,26 +22,24 @@ export default async function TendersPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("workWithUs");
-  const tenders = getTenders().map((item) =>
-    toOpportunity(item, classifyOpportunity(item.slug, item.title) === "grant" ? "grant" : "tender"),
-  );
+  const jobs = getJobs().map((item) => toOpportunity(item, "job"));
 
   return (
     <>
       <ImageHero
-        title={t("tenders")}
-        subtitle={t("tendersDesc")}
-        image={heroImages.tenders}
-        badge="🇪🇺 EU Funded — Procurement"
+        title={t("jobs")}
+        subtitle={t("jobsDesc")}
+        image={heroImages.jobs}
+        badge="Careers & Internships"
         backLink={{ label: t("title"), href: "/work-with-us" }}
-        secondaryCta={{ label: "View jobs", href: "/work-with-us/jobs" }}
+        secondaryCta={{ label: "View tenders", href: "/work-with-us/tenders" }}
       />
       <section className="mx-auto max-w-5xl px-4 py-16 lg:px-8">
         <p className="mb-8 text-sm text-text-muted">
-          {tenders.length} open procurement opportunities across the Western Balkans and Türkiye.
+          {jobs.length} open positions across REDI offices in the Western Balkans and Türkiye.
         </p>
         <div className="grid gap-4">
-          {tenders.map((item) => (
+          {jobs.map((item) => (
             <OpportunityCard key={item.slug} item={item} />
           ))}
         </div>

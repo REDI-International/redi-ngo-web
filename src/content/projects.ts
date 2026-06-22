@@ -1,3 +1,5 @@
+import { projectImages } from "./media";
+
 export type ProjectStatus = "active" | "completed";
 
 export interface Project {
@@ -25,6 +27,7 @@ export const projects: Project[] = [
       "Advancing Roma entrepreneurs in the Western Balkans and Türkiye through Regional Business Centers.",
     description:
       "This EU-funded initiative builds upon the success of Phase I, offering training, mentoring, financing access, and green digital transformation tools for Roma entrepreneurs and unemployed individuals.",
+    image: projectImages["eu-support-phase-ii"],
     externalUrl: "https://redi-ngo.eu/advancing-roma-entrepreneurs-in-the-western-balkans/",
   },
   {
@@ -37,6 +40,7 @@ export const projects: Project[] = [
     summary: "Advancing employment and economic situation of Roma in Serbia and North Macedonia.",
     description:
       "The overall objective was to advance employment and the economic situation of Roma through business facilitation, training, and access to finance.",
+    image: projectImages["eu-support-phase-i"],
   },
   {
     slug: "gea",
@@ -48,6 +52,7 @@ export const projects: Project[] = [
     summary: "Strategic partnership increasing young Roma entrepreneurship potential.",
     description:
       "A strategic partnership of 5 organizations sharing a vision towards increasing young Roma people's entrepreneurship potential, with focus on green and sustainable business models.",
+    image: projectImages.gea,
     externalUrl: "https://redi-ngo.eu/gea-green-entrepreneurs-in-action/",
   },
   {
@@ -60,6 +65,7 @@ export const projects: Project[] = [
     summary: "Inclusive entrepreneurship support for underrepresented entrepreneurs in Europe.",
     description:
       "MOSAIC launched essential resources including a knowledge hub and guide to support underrepresented entrepreneurs across Europe with inclusive business development tools.",
+    image: projectImages.mosaic,
     externalUrl: "https://redi-ngo.eu/mosaic-project/",
   },
   {
@@ -72,6 +78,7 @@ export const projects: Project[] = [
     summary: "Building REDI as an ecosystem connector for Roma entrepreneurs.",
     description:
       "Supported REDI to become an ecosystem builder and connector between Roma entrepreneurs operating in their communities and the mainstream business environment.",
+    image: projectImages["institutional-capacity"],
   },
   {
     slug: "socio-economic-inclusion",
@@ -83,6 +90,7 @@ export const projects: Project[] = [
     summary: "Inclusion of Roma in inter-ethnic rural communities in Teleorman and Giurgiu.",
     description:
       "Increased socio-economic inclusion of vulnerable groups in 5 rural communities: Blejesti, Ciuperceni, Comana, Prundu, and Hotarele through entrepreneurship training and community engagement.",
+    image: projectImages["socio-economic-inclusion"],
   },
   {
     slug: "visegrad-advocacy",
@@ -94,6 +102,11 @@ export const projects: Project[] = [
     summary: "Innovation, R&D, and entrepreneurship advocacy for Roma businesses.",
     description:
       "A policy lab focused on Roma business advocacy, connecting entrepreneurs with policymakers and strengthening the voice of Roma businesses in Central Europe.",
+    image: projectImages["visegrad-advocacy"],
     externalUrl: "https://redi-ngo.eu/visegrad2025/",
   },
 ];
+
+export function getProject(slug: string): Project | undefined {
+  return projects.find((p) => p.slug === slug);
+}

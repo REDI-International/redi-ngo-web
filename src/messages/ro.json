@@ -4,14 +4,22 @@
     "impact": "Impact",
     "projects": "Proiecte",
     "news": "Știri",
+    "media": "Media",
     "workWithUs": "Colaborăm",
     "contact": "Contact"
   },
   "home": {
     "heroTitle": "Împuternicirea antreprenorilor romi din Europa",
-    "heroSubtitle": "REDI este un constructor de ecosistem care conectează antreprenorii romi cu mediul de afaceri mainstream.",
+    "heroSubtitle": "REDI gestionează programe finanțate de UE, conectând antreprenorii romi cu formare, finanțare și piețe în 7 țări.",
+    "viewProjects": "Proiectele noastre UE",
+    "openOpportunities": "Licitații și joburi deschise",
     "exploreImpact": "Explorează impactul nostru",
     "supportRedi": "Susține REDI",
+    "euProjects": "Proiecte finanțate de UE",
+    "euProjectsDesc": "Programe active finanțate de Uniunea Europeană și parteneri internaționali.",
+    "ourWork": "Munca noastră în imagini",
+    "viewGallery": "Galerie completă",
+    "openOpportunitiesDesc": "Achiziții, granturi, cariere și stagii în programele REDI.",
     "ourImpact": "Impactul nostru",
     "activeProjects": "Proiecte active",
     "viewAllProjects": "Vezi toate proiectele",
@@ -48,13 +56,19 @@
   },
   "workWithUs": {
     "title": "Colaborăm",
-    "subtitle": "Alătură-te misiunii noastre de a împuternici antreprenorii romi.",
+    "subtitle": "Alătură-te programelor noastre finanțate de UE din Balcanii de Vest și Turcia.",
     "tenders": "Licitații deschise",
+    "jobs": "Cariere și stagii",
+    "jobsDesc": "Posturi, stagii și roluri de expert în birourile REDI.",
     "volunteer": "Voluntariat",
     "donate": "Susține REDI",
-    "tendersDesc": "Oportunități actuale de achiziții și apeluri de propuneri.",
+    "tendersDesc": "Achiziții, granturi și apeluri de propuneri pe proiecte finanțate de UE.",
     "volunteerDesc": "Contribuie cu abilitățile tale pentru a sprijini antreprenorii romi.",
     "donateDesc": "Ajută-ne să extindem accesul la finanțare și formare."
+  },
+  "media": {
+    "title": "Media și galerie",
+    "subtitle": "Fotografii de la evenimentele, activitățile comunitare și programele finanțate de UE."
   },
   "contact": {
     "title": "Contactează-ne",

@@ -4,14 +4,22 @@
     "impact": "Impact",
     "projects": "Projects",
     "news": "News",
+    "media": "Media",
     "workWithUs": "Work With Us",
     "contact": "Contact"
   },
   "home": {
     "heroTitle": "Empowering Roma entrepreneurs across Europe",
-    "heroSubtitle": "REDI is an ecosystem builder connecting Roma entrepreneurs with the mainstream business environment.",
+    "heroSubtitle": "REDI runs EU-funded programmes connecting Roma entrepreneurs with training, finance, and markets across 7 countries.",
+    "viewProjects": "Our EU Projects",
+    "openOpportunities": "Open Tenders & Jobs",
     "exploreImpact": "Explore Our Impact",
     "supportRedi": "Support REDI",
+    "euProjects": "EU-Funded Projects",
+    "euProjectsDesc": "Active programmes funded by the European Union and international partners.",
+    "ourWork": "Our Work in Pictures",
+    "viewGallery": "Full gallery",
+    "openOpportunitiesDesc": "Procurement, grants, careers and internships on REDI programmes.",
     "ourImpact": "Our Impact",
     "activeProjects": "Active Projects",
     "viewAllProjects": "View all projects",
@@ -48,13 +56,19 @@
   },
   "workWithUs": {
     "title": "Work With Us",
-    "subtitle": "Join our mission to empower Roma entrepreneurs.",
+    "subtitle": "Join our EU-funded programmes across the Western Balkans and Türkiye.",
     "tenders": "Open Tenders",
+    "jobs": "Careers & Internships",
+    "jobsDesc": "Staff positions, internships, and expert roles across REDI country offices.",
     "volunteer": "Volunteer",
     "donate": "Support REDI",
-    "tendersDesc": "Current procurement opportunities and calls for proposals.",
+    "tendersDesc": "Procurement, grants, and calls for proposals on EU-funded projects.",
     "volunteerDesc": "Contribute your skills to support Roma entrepreneurs across Europe.",
     "donateDesc": "Help us expand access to finance and training for Roma communities."
+  },
+  "media": {
+    "title": "Media & Gallery",
+    "subtitle": "Photos from our events, community work, and EU-funded programmes across Europe."
   },
   "contact": {
     "title": "Contact Us",

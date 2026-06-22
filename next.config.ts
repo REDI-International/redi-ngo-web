@@ -36,8 +36,10 @@ const nextConfig: NextConfig = {
       { source: "/contact-page/", destination: "/contact", permanent: true },
       { source: "/tenders", destination: "/work-with-us/tenders", permanent: true },
       { source: "/tenders/", destination: "/work-with-us/tenders", permanent: true },
-      { source: "/join-us", destination: "/work-with-us", permanent: true },
-      { source: "/join-us/", destination: "/work-with-us", permanent: true },
+      { source: "/vacancies", destination: "/work-with-us/jobs", permanent: true },
+      { source: "/vacancies/", destination: "/work-with-us/jobs", permanent: true },
+      { source: "/our-gallery", destination: "/media", permanent: true },
+      { source: "/our-gallery/", destination: "/media", permanent: true },
     ];
   },
 };

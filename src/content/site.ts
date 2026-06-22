@@ -30,10 +30,10 @@ export const countries = [
 ] as const;
 
 export const navItems = [
-  { href: "/about", labelKey: "nav.about" },
-  { href: "/impact", labelKey: "nav.impact" },
   { href: "/projects", labelKey: "nav.projects" },
-  { href: "/news", labelKey: "nav.news" },
   { href: "/work-with-us", labelKey: "nav.workWithUs" },
+  { href: "/media", labelKey: "nav.media" },
+  { href: "/about", labelKey: "nav.about" },
+  { href: "/news", labelKey: "nav.news" },
   { href: "/contact", labelKey: "nav.contact" },
 ] as const;

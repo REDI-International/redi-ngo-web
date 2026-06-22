@@ -1,6 +1,11 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { getTenders } from "@/lib/content";
+import { ImageHero } from "@/components/ImageHero";
+import { OpportunityCard } from "@/components/OpportunityCard";
+import { getTenders, getJobs, toOpportunity } from "@/lib/content";
+import { heroImages } from "@/content/media";
+import { classifyOpportunity } from "@/lib/opportunities";
 
 export async function generateMetadata({
   params,
@@ -20,68 +25,85 @@ export default async function WorkWithUsPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("workWithUs");
-  const tenders = getTenders(5);
+
+  const recentTenders = getTenders(4).map((item) =>
+    toOpportunity(item, classifyOpportunity(item.slug, item.title) === "grant" ? "grant" : "tender"),
+  );
+  const recentJobs = getJobs(4).map((item) => toOpportunity(item, "job"));
 
   return (
     <>
-      <section className="bg-primary py-16 text-white">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h1 className="font-heading text-4xl font-bold">{t("title")}</h1>
-          <p className="mt-4 max-w-2xl text-white/85">{t("subtitle")}</p>
-        </div>
-      </section>
+      <ImageHero
+        title={t("title")}
+        subtitle={t("subtitle")}
+        image={heroImages.tenders}
+        badge="🇪🇺 EU Funded Opportunities"
+      />
 
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-3">
-          <div className="rounded-2xl border border-surface-dark bg-white p-8">
-            <h2 className="font-heading text-xl font-bold text-primary">{t("tenders")}</h2>
-            <p className="mt-3 text-sm text-text-muted">{t("tendersDesc")}</p>
-            <Link href="/work-with-us/tenders" className="mt-6 inline-block text-sm font-semibold text-accent">
-              View tenders →
-            </Link>
-          </div>
-          <div className="rounded-2xl border border-surface-dark bg-white p-8">
-            <h2 className="font-heading text-xl font-bold text-primary">{t("volunteer")}</h2>
-            <p className="mt-3 text-sm text-text-muted">{t("volunteerDesc")}</p>
-            <Link href="/contact" className="mt-6 inline-block text-sm font-semibold text-accent">
-              Get in touch →
-            </Link>
-          </div>
-          <div className="rounded-2xl border border-surface-dark bg-white p-8">
-            <h2 className="font-heading text-xl font-bold text-primary">{t("donate")}</h2>
-            <p className="mt-3 text-sm text-text-muted">{t("donateDesc")}</p>
-            <a
-              href="https://redi-ngo.eu/donate/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-block text-sm font-semibold text-accent"
-            >
-              Donate →
-            </a>
-          </div>
-        </div>
+        <div className="grid gap-6 lg:grid-cols-3">
+          <Link href="/work-with-us/tenders" className="group relative overflow-hidden rounded-2xl lg:col-span-2 lg:row-span-2">
+            <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[400px]">
+              <Image src={heroImages.tenders} alt="" fill className="object-cover transition group-hover:scale-105" sizes="66vw" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute bottom-0 p-8">
+                <span className="rounded-full bg-[#003399] px-3 py-1 text-xs font-bold text-white">🇪🇺 TENDERS</span>
+                <h2 className="mt-3 font-heading text-3xl font-bold text-white">{t("tenders")}</h2>
+                <p className="mt-2 text-white/80">{t("tendersDesc")}</p>
+                <span className="mt-4 inline-block text-sm font-semibold text-accent">View all →</span>
+              </div>
+            </div>
+          </Link>
 
-        {tenders.length > 0 && (
-          <div className="mt-16">
-            <h2 className="font-heading text-2xl font-bold text-primary">{t("tenders")}</h2>
-            <ul className="mt-6 space-y-4">
-              {tenders.map((tender) => (
-                <li key={tender.slug}>
-                  <Link
-                    href={`/work-with-us/tenders/${tender.slug}`}
-                    className="block rounded-xl border border-surface-dark bg-white p-5 hover:shadow-md"
-                  >
-                    <p className="font-medium text-primary">{tender.title}</p>
-                    {tender.publishedAt && (
-                      <time className="mt-1 block text-xs text-text-muted">{tender.publishedAt}</time>
-                    )}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+          <Link href="/work-with-us/jobs" className="group relative overflow-hidden rounded-2xl">
+            <div className="relative aspect-[16/10]">
+              <Image src={heroImages.jobs} alt="" fill className="object-cover transition group-hover:scale-105" sizes="33vw" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute bottom-0 p-6">
+                <span className="rounded-full bg-primary px-3 py-1 text-xs font-bold text-white">JOBS</span>
+                <h2 className="mt-2 font-heading text-xl font-bold text-white">{t("jobs")}</h2>
+                <span className="mt-2 inline-block text-sm font-semibold text-accent">View all →</span>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/contact" className="group relative overflow-hidden rounded-2xl bg-primary p-8 text-white">
+            <h2 className="font-heading text-xl font-bold">{t("volunteer")}</h2>
+            <p className="mt-2 text-sm text-white/80">{t("volunteerDesc")}</p>
+            <span className="mt-4 inline-block text-sm font-semibold text-accent">Get in touch →</span>
+          </Link>
+        </div>
       </section>
+
+      {recentTenders.length > 0 && (
+        <section className="bg-white py-16">
+          <div className="mx-auto max-w-5xl px-4 lg:px-8">
+            <div className="mb-8 flex items-end justify-between">
+              <h2 className="font-heading text-2xl font-bold text-primary">{t("tenders")}</h2>
+              <Link href="/work-with-us/tenders" className="text-sm font-semibold text-accent">View all →</Link>
+            </div>
+            <div className="grid gap-4">
+              {recentTenders.map((item) => (
+                <OpportunityCard key={item.slug} item={item} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {recentJobs.length > 0 && (
+        <section className="mx-auto max-w-5xl px-4 py-16 lg:px-8">
+          <div className="mb-8 flex items-end justify-between">
+            <h2 className="font-heading text-2xl font-bold text-primary">{t("jobs")}</h2>
+            <Link href="/work-with-us/jobs" className="text-sm font-semibold text-accent">View all →</Link>
+          </div>
+          <div className="grid gap-4">
+            {recentJobs.map((item) => (
+              <OpportunityCard key={item.slug} item={item} />
+            ))}
+          </div>
+        </section>
+      )}
     </>
   );
 }
