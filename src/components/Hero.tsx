@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { EUBadge } from "@/components/EUEmblem";
 import { EcosystemVisual } from "@/components/EcosystemVisual";
+import { EntrepreneurCollage } from "@/components/EntrepreneurCollage";
 
 interface HeroProps {
   title: string;
@@ -11,6 +11,7 @@ interface HeroProps {
   ecosystemLabels: Record<string, string>;
   primaryCta: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
+  imageSrc?: string | null;
 }
 
 export function Hero({
@@ -21,6 +22,7 @@ export function Hero({
   ecosystemLabels,
   primaryCta,
   secondaryCta,
+  imageSrc,
 }: HeroProps) {
   return (
     <section className="relative overflow-hidden bg-white">
@@ -70,16 +72,12 @@ export function Hero({
           </div>
         </div>
 
-        <div className="relative mt-12 overflow-hidden rounded-2xl shadow-xl lg:mt-16">
-          <Image
-            src="/home/entrepreneur-collage.png"
-            alt=""
-            width={1400}
-            height={320}
-            className="h-auto w-full object-cover"
+        <div className="mt-12 lg:mt-16">
+          <EntrepreneurCollage
+            variant="banner"
+            imageSrc={imageSrc ?? undefined}
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
         </div>
       </div>
 

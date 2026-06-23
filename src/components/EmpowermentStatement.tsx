@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { EntrepreneurCollage } from "@/components/EntrepreneurCollage";
 
 interface EmpowermentStatementProps {
   title: string;
@@ -28,16 +28,7 @@ export function EmpowermentStatement({ title, body, highlight, cta, ctaHref }: E
             </Link>
           </div>
 
-          <div className="relative overflow-hidden rounded-2xl shadow-lg">
-            <Image
-              src="/home/entrepreneur-collage.png"
-              alt=""
-              width={1200}
-              height={400}
-              className="h-auto w-full object-cover"
-              priority
-            />
-          </div>
+          <EntrepreneurCollage variant="card" priority />
         </div>
       </div>
     </section>

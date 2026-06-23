@@ -345,3 +345,57 @@ h1, h2, h3, h4 {
     transform: none !important;
   }
 }
+
+/* ── Entrepreneur collage story panel ── */
+
+.collage-backdrop-enter {
+  animation: collage-fade-in 0.2s ease-out forwards;
+}
+
+.collage-panel-enter {
+  animation: collage-slide-up 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (min-width: 640px) {
+  .collage-panel-enter {
+    animation-name: collage-slide-right;
+  }
+}
+
+@keyframes collage-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes collage-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes collage-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collage-backdrop-enter,
+  .collage-panel-enter {
+    animation: none !important;
+  }
+}
