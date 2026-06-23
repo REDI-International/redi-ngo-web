@@ -6,6 +6,7 @@ import { eq, asc } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { navItems } from "@/db/schema";
 import { getAdminUser } from "@/lib/supabase/server";
+import { CONTENT_TAGS, revalidateContentTags } from "@/lib/cache";
 import { str, optionalStr, bool, int } from "./helpers";
 
 async function requireAuth() {
@@ -35,6 +36,7 @@ export async function saveNavItem(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.nav);
   redirect("/admin/menu?toast=saved");
 }
 
@@ -65,6 +67,7 @@ export async function reorderNavItem(formData: FormData) {
 
   revalidatePath("/", "layout");
   revalidatePath("/admin/menu");
+  revalidateContentTags(CONTENT_TAGS.nav);
 }
 
 export async function deleteNavItem(formData: FormData) {
@@ -74,5 +77,6 @@ export async function deleteNavItem(formData: FormData) {
 
   await db.delete(navItems).where(eq(navItems.id, str(formData, "id")));
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.nav);
   redirect("/admin/menu?toast=deleted");
 }

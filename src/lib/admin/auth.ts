@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
@@ -12,7 +13,7 @@ export interface AdminSession {
   role: AdminRole;
 }
 
-export async function getAdminSession(): Promise<AdminSession | null> {
+export const getAdminSession = cache(async (): Promise<AdminSession | null> => {
   const user = await getAdminUser();
   if (!user?.email) return null;
 
@@ -54,7 +55,7 @@ export async function getAdminSession(): Promise<AdminSession | null> {
   } catch {
     return null;
   }
-}
+});
 
 export async function requireAdminSession(): Promise<AdminSession> {
   const session = await getAdminSession();

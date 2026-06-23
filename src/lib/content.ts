@@ -1,4 +1,6 @@
+import { unstable_cache } from "next/cache";
 import { desc, asc, eq } from "drizzle-orm";
+import { CONTENT_TAGS, CONTENT_REVALIDATE_SECONDS } from "@/lib/cache";
 import teamData from "@/content/extracted/team.json";
 import newsData from "@/content/extracted/news.json";
 import tendersData from "@/content/extracted/tenders.json";
@@ -160,9 +162,10 @@ function mapDbOpportunity(row: typeof opportunities.$inferSelect): EnrichedOppor
 
 let _oppCache: EnrichedOpportunity[] | undefined;
 
-async function allOpportunities(): Promise<EnrichedOpportunity[]> {
-  const db = getDb();
-  if (db) {
+const cachedDbOpportunities = unstable_cache(
+  async (): Promise<EnrichedOpportunity[] | null> => {
+    const db = getDb();
+    if (!db) return null;
     try {
       const rows = await db
         .select()
@@ -170,10 +173,18 @@ async function allOpportunities(): Promise<EnrichedOpportunity[]> {
         .where(eq(opportunities.published, true))
         .orderBy(asc(opportunities.sortOrder), desc(opportunities.publishedAt));
       if (rows.length > 0) return rows.map(mapDbOpportunity);
+      return null;
     } catch {
-      // fall through to JSON
+      return null;
     }
-  }
+  },
+  ["opportunities"],
+  { tags: [CONTENT_TAGS.opportunities], revalidate: CONTENT_REVALIDATE_SECONDS },
+);
+
+async function allOpportunities(): Promise<EnrichedOpportunity[]> {
+  const fromDb = await cachedDbOpportunities();
+  if (fromDb) return fromDb;
   if (!_oppCache) _oppCache = jsonOpportunities();
   return _oppCache;
 }
@@ -198,30 +209,36 @@ export async function getJob(slug: string) {
   return (await getJobs()).find((t) => t.slug === slug);
 }
 
-export async function getNewsArticles(limit?: number): Promise<NewsArticle[]> {
-  const db = getDb();
-  if (db) {
+const cachedDbNews = unstable_cache(
+  async (): Promise<NewsArticle[] | null> => {
+    const db = getDb();
+    if (!db) return null;
     try {
       const rows = await db
         .select()
         .from(newsPosts)
         .where(eq(newsPosts.published, true))
         .orderBy(asc(newsPosts.sortOrder), desc(newsPosts.publishedAt));
-      if (rows.length > 0) {
-        const mapped = rows.map((r) => ({
-          slug: r.slug,
-          title: r.title,
-          excerpt: r.excerpt ?? "",
-          body: r.body ?? "",
-          image: mediaUrl(r.image),
-          publishedAt: r.publishedAt?.toISOString().slice(0, 10),
-        }));
-        return limit ? mapped.slice(0, limit) : mapped;
-      }
+      if (rows.length === 0) return null;
+      return rows.map((r) => ({
+        slug: r.slug,
+        title: r.title,
+        excerpt: r.excerpt ?? "",
+        body: r.body ?? "",
+        image: mediaUrl(r.image),
+        publishedAt: r.publishedAt?.toISOString().slice(0, 10),
+      }));
     } catch {
-      // fall through
+      return null;
     }
-  }
+  },
+  ["news-articles"],
+  { tags: [CONTENT_TAGS.news], revalidate: CONTENT_REVALIDATE_SECONDS },
+);
+
+export async function getNewsArticles(limit?: number): Promise<NewsArticle[]> {
+  const fromDb = await cachedDbNews();
+  if (fromDb) return limit ? fromDb.slice(0, limit) : fromDb;
   const articles = (newsData as NewsArticle[])
     .filter((a) => !classifyItem(a.slug, a.title) && a.title.length < 120)
     .map((a) => ({ ...a, image: mediaUrl(a.image) }));
@@ -232,28 +249,34 @@ export async function getNewsArticle(slug: string): Promise<NewsArticle | undefi
   return (await getNewsArticles()).find((a) => a.slug === slug);
 }
 
-export async function getGalleryPhotos(): Promise<GalleryPhoto[]> {
-  const db = getDb();
-  if (db) {
+const cachedDbGallery = unstable_cache(
+  async (): Promise<GalleryPhoto[] | null> => {
+    const db = getDb();
+    if (!db) return null;
     try {
       const rows = await db
         .select()
         .from(galleryImages)
         .where(eq(galleryImages.published, true))
         .orderBy(asc(galleryImages.sortOrder));
-      if (rows.length > 0) {
-        return rows.map((r) => ({
-          src: mediaUrl(r.url)!,
-          alt: r.alt ?? "",
-          caption: r.caption ?? undefined,
-          category: (r.category as GalleryPhoto["category"]) ?? "community",
-        }));
-      }
+      if (rows.length === 0) return null;
+      return rows.map((r) => ({
+        src: mediaUrl(r.url)!,
+        alt: r.alt ?? "",
+        caption: r.caption ?? undefined,
+        category: (r.category as GalleryPhoto["category"]) ?? "community",
+      }));
     } catch {
-      // fall through
+      return null;
     }
-  }
-  return staticGallery;
+  },
+  ["gallery-photos"],
+  { tags: [CONTENT_TAGS.gallery], revalidate: CONTENT_REVALIDATE_SECONDS },
+);
+
+export async function getGalleryPhotos(): Promise<GalleryPhoto[]> {
+  const fromDb = await cachedDbGallery();
+  return fromDb ?? staticGallery;
 }
 
 export function getTeam(): TeamMember[] {

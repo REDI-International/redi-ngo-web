@@ -7,6 +7,7 @@ import { getDb } from "@/db/client";
 import { galleryImages } from "@/db/schema";
 import { getAdminUser } from "@/lib/supabase/server";
 import { getSupabaseAdmin, MEDIA_BUCKET } from "@/lib/supabase/admin";
+import { CONTENT_TAGS, revalidateContentTags } from "@/lib/cache";
 import { str, optionalStr, bool, int } from "./helpers";
 
 async function requireAuth() {
@@ -40,6 +41,7 @@ export async function saveGalleryImage(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.gallery);
   redirect("/admin/media?toast=saved");
 }
 
@@ -60,5 +62,6 @@ export async function deleteGalleryImage(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.gallery);
   redirect("/admin/media?toast=deleted");
 }

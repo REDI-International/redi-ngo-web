@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { asc, eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { pageSections } from "@/db/schema";
 import { getAdminSession } from "@/lib/admin/auth";
+import { CONTENT_TAGS, revalidateContentTags } from "@/lib/cache";
 import { canEditContent } from "@/lib/admin/can-edit-content";
 import {
   blockToSectionValues,
@@ -126,6 +128,9 @@ export async function PUT(request: Request) {
     }
   }
 
+  revalidateContentTags(CONTENT_TAGS.blocks);
+  revalidatePath("/", "layout");
+
   return NextResponse.json({ ok: true, blocks: saved });
 }
 
@@ -141,5 +146,9 @@ export async function DELETE(request: Request) {
   if (!id) return NextResponse.json({ error: "id is required" }, { status: 400 });
 
   await db.delete(pageSections).where(eq(pageSections.id, id));
+
+  revalidateContentTags(CONTENT_TAGS.blocks);
+  revalidatePath("/", "layout");
+
   return NextResponse.json({ ok: true });
 }

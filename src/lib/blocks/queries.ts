@@ -1,9 +1,21 @@
+import { unstable_cache } from "next/cache";
 import { and, asc, eq, or } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { pageSections } from "@/db/schema";
+import { CONTENT_TAGS, CONTENT_REVALIDATE_SECONDS } from "@/lib/cache";
 import { denormalizePageSlug, sectionToBlock, type PageBlock } from "./types";
 
+const cachedPageBlocks = unstable_cache(
+  fetchPageBlocks,
+  ["page-blocks"],
+  { tags: [CONTENT_TAGS.blocks], revalidate: CONTENT_REVALIDATE_SECONDS },
+);
+
 export async function listPageBlocks(pageSlug: string, locale: string): Promise<PageBlock[]> {
+  return cachedPageBlocks(pageSlug, locale);
+}
+
+async function fetchPageBlocks(pageSlug: string, locale: string): Promise<PageBlock[]> {
   const db = getDb();
   if (!db) return [];
 

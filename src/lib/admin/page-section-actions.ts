@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { pageSections } from "@/db/schema";
 import { requireAdminSession } from "@/lib/admin/auth";
+import { CONTENT_TAGS, revalidateContentTags } from "@/lib/cache";
 import { str, optionalStr, bool, int } from "./helpers";
 
 export type SectionWidth = "full" | "half" | "third";
@@ -64,6 +65,7 @@ export async function savePageSection(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.blocks);
   revalidatePath("/admin/pages");
   revalidatePath("/admin/pages/home");
   redirect("/admin/pages?toast=saved");
@@ -97,6 +99,7 @@ export async function saveHomeSection(formData: FormData) {
     .where(eq(pageSections.id, id));
 
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.blocks);
   revalidatePath("/admin/pages/home");
 }
 
@@ -116,6 +119,7 @@ export async function reorderHomeSections(formData: FormData) {
   );
 
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.blocks);
   revalidatePath("/admin/pages/home");
 }
 
@@ -126,6 +130,7 @@ export async function deletePageSection(formData: FormData) {
 
   await db.delete(pageSections).where(eq(pageSections.id, str(formData, "id")));
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.blocks);
   redirect("/admin/pages?toast=deleted");
 }
 
@@ -148,6 +153,7 @@ export async function createHomeSection(formData: FormData) {
   });
 
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.blocks);
   revalidatePath("/admin/pages/home");
   redirect("/admin/pages/home?toast=saved");
 }

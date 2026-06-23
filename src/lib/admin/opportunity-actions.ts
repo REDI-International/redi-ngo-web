@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { opportunities } from "@/db/schema";
 import { getAdminUser } from "@/lib/supabase/server";
+import { CONTENT_TAGS, revalidateContentTags } from "@/lib/cache";
 import { slugify, str, optionalStr, bool, int, dateOrNull } from "./helpers";
 
 async function requireAuth() {
@@ -46,6 +47,7 @@ export async function saveOpportunity(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.opportunities);
   redirect(type === "job" ? "/admin/jobs?toast=saved" : "/admin/tenders?toast=saved");
 }
 
@@ -59,5 +61,6 @@ export async function deleteOpportunity(formData: FormData) {
   await db.delete(opportunities).where(eq(opportunities.id, id));
 
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.opportunities);
   redirect(type === "job" ? "/admin/opportunities?type=job&toast=deleted" : "/admin/opportunities?toast=deleted");
 }

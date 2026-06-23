@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { newsPosts } from "@/db/schema";
 import { getAdminUser } from "@/lib/supabase/server";
+import { CONTENT_TAGS, revalidateContentTags } from "@/lib/cache";
 import { slugify, str, optionalStr, bool, int, dateOrNull } from "./helpers";
 
 async function requireAuth() {
@@ -43,6 +44,7 @@ export async function saveNews(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.news);
   redirect("/admin/news?toast=saved");
 }
 
@@ -53,5 +55,6 @@ export async function deleteNews(formData: FormData) {
 
   await db.delete(newsPosts).where(eq(newsPosts.id, str(formData, "id")));
   revalidatePath("/", "layout");
+  revalidateContentTags(CONTENT_TAGS.news);
   redirect("/admin/news?toast=deleted");
 }

@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { cleanEnvValue } from "@/lib/env";
@@ -37,12 +38,19 @@ export async function getSupabaseServer() {
   });
 }
 
-/** Returns the signed-in admin user, or null. */
-export async function getAdminUser() {
+/**
+ * Returns the signed-in admin user, or null.
+ *
+ * Wrapped in React `cache()` so multiple callers within the same request
+ * (middleware aside, e.g. the layout shell + a page section) share a single
+ * `auth.getUser()` round-trip to Supabase instead of hitting the network
+ * repeatedly per render.
+ */
+export const getAdminUser = cache(async () => {
   const supabase = await getSupabaseServer();
   if (!supabase) return null;
   const {
     data: { user },
   } = await supabase.auth.getUser();
   return user;
-}
+});
