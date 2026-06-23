@@ -17,7 +17,23 @@ export async function getAdminSession(): Promise<AdminSession | null> {
   if (!user?.email) return null;
 
   const db = getDb();
-  if (!db) return null;
+  if (!db) {
+    // If DB is not connected, allow login with a fallback session so they can see the setup instructions.
+    return {
+      userId: user.id,
+      email: user.email,
+      profile: {
+        id: user.id,
+        email: user.email,
+        role: "superadmin",
+        supabaseUserId: user.id,
+        mustChangePassword: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      role: "superadmin",
+    };
+  }
 
   try {
     const rows = await db
