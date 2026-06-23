@@ -46,7 +46,7 @@ export async function saveOpportunity(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect(type === "job" ? "/admin/jobs" : "/admin/tenders");
+  redirect(type === "job" ? "/admin/jobs?toast=saved" : "/admin/tenders?toast=saved");
 }
 
 export async function deleteOpportunity(formData: FormData) {
@@ -59,5 +59,5 @@ export async function deleteOpportunity(formData: FormData) {
   await db.delete(opportunities).where(eq(opportunities.id, id));
 
   revalidatePath("/", "layout");
-  redirect(type === "job" ? "/admin/jobs" : "/admin/tenders");
+  redirect(type === "job" ? "/admin/opportunities?type=job&toast=deleted" : "/admin/opportunities?toast=deleted");
 }

@@ -37,7 +37,7 @@ export async function saveSetting(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/admin/settings");
+  redirect("/admin/settings?toast=saved");
 }
 
 export async function deleteSetting(formData: FormData) {
@@ -47,5 +47,5 @@ export async function deleteSetting(formData: FormData) {
 
   await db.delete(siteSettings).where(eq(siteSettings.key, str(formData, "key")));
   revalidatePath("/", "layout");
-  redirect("/admin/settings");
+  redirect("/admin/settings?toast=deleted");
 }

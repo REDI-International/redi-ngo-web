@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-admin-bg: #f5f5f7;
+  --color-admin-surface: #ffffff;
+  --color-admin-sidebar: #1d1d1f;
+  --color-admin-sidebar-hover: #2c2c2e;
+  --color-admin-border: rgba(0, 0, 0, 0.08);
+  --color-admin-muted: #86868b;
+  --color-admin-text: #1d1d1f;
+  --color-admin-accent: #1b4332;
+  --color-admin-accent-light: #2d6a4f;
+  --color-admin-gold: #d4a017;
+  --color-admin-eu: #003399;
+  --font-admin: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-admin-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+}
+
+.admin-root {
+  font-family: var(--font-admin);
+  background: var(--color-admin-bg);
+  color: var(--color-admin-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.admin-root h1,
+.admin-root h2,
+.admin-root h3 {
+  font-family: var(--font-admin-display);
+  letter-spacing: -0.02em;
+}
+
+.admin-glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+.admin-card {
+  background: var(--color-admin-surface);
+  border: 1px solid var(--color-admin-border);
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.admin-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+.admin-input {
+  width: 100%;
+  border-radius: 0.625rem;
+  border: 1px solid var(--color-admin-border);
+  background: var(--color-admin-surface);
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-input:focus {
+  border-color: var(--color-admin-accent);
+  box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.12);
+}
+
+.admin-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.625rem;
+  background: var(--color-admin-accent);
+  padding: 0.625rem 1.125rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.admin-btn-primary:hover {
+  background: var(--color-admin-accent-light);
+}
+
+.admin-btn-primary:active {
+  transform: scale(0.98);
+}
+
+.admin-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.625rem;
+  border: 1px solid var(--color-admin-border);
+  background: var(--color-admin-surface);
+  padding: 0.625rem 1.125rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-admin-text);
+  transition: background 0.2s ease;
+}
+
+.admin-btn-secondary:hover {
+  background: #f5f5f7;
+}
+
+@keyframes admin-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.admin-skeleton {
+  background: linear-gradient(90deg, #eee 25%, #f5f5f7 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: admin-shimmer 1.5s infinite;
+  border-radius: 0.5rem;
+}
+
+@keyframes admin-toast-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.admin-toast {
+  animation: admin-toast-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}

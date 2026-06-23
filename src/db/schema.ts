@@ -74,6 +74,19 @@ export const contactMessages = pgTable("contact_messages", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
 
+/** Editable homepage / page blocks (hero, stats, CTAs, etc.). */
+export const pageSections = pgTable("page_sections", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  pageKey: text("page_key").notNull().default("homepage"),
+  sectionKey: text("section_key").notNull(),
+  title: text("title"),
+  content: jsonb("content"),
+  published: boolean("published").notNull().default(true),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
 export type Opportunity = typeof opportunities.$inferSelect;
 export type NewOpportunity = typeof opportunities.$inferInsert;
 export type NewsPost = typeof newsPosts.$inferSelect;
@@ -83,3 +96,5 @@ export type NewGalleryImage = typeof galleryImages.$inferInsert;
 export type NavItem = typeof navItems.$inferSelect;
 export type NewNavItem = typeof navItems.$inferInsert;
 export type SiteSetting = typeof siteSettings.$inferSelect;
+export type PageSection = typeof pageSections.$inferSelect;
+export type NewPageSection = typeof pageSections.$inferInsert;

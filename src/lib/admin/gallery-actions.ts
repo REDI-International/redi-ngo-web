@@ -40,7 +40,7 @@ export async function saveGalleryImage(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/admin/media");
+  redirect("/admin/media?toast=saved");
 }
 
 export async function deleteGalleryImage(formData: FormData) {
@@ -60,5 +60,5 @@ export async function deleteGalleryImage(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/admin/media");
+  redirect("/admin/media?toast=deleted");
 }

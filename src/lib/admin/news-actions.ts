@@ -43,7 +43,7 @@ export async function saveNews(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/admin/news");
+  redirect("/admin/news?toast=saved");
 }
 
 export async function deleteNews(formData: FormData) {
@@ -53,5 +53,5 @@ export async function deleteNews(formData: FormData) {
 
   await db.delete(newsPosts).where(eq(newsPosts.id, str(formData, "id")));
   revalidatePath("/", "layout");
-  redirect("/admin/news");
+  redirect("/admin/news?toast=deleted");
 }

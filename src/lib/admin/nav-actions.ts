@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { navItems } from "@/db/schema";
 import { getAdminUser } from "@/lib/supabase/server";
@@ -35,7 +35,36 @@ export async function saveNavItem(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/admin/menu");
+  redirect("/admin/menu?toast=saved");
+}
+
+export async function reorderNavItem(formData: FormData) {
+  await requireAuth();
+  const db = getDb();
+  if (!db) throw new Error("Database not configured");
+
+  const id = str(formData, "id");
+  const direction = str(formData, "direction");
+  const current = await db.select().from(navItems).where(eq(navItems.id, id)).limit(1);
+  const item = current[0];
+  if (!item) return;
+
+  const siblings = await db
+    .select()
+    .from(navItems)
+    .where(eq(navItems.location, item.location))
+    .orderBy(asc(navItems.sortOrder));
+
+  const idx = siblings.findIndex((s) => s.id === id);
+  const swapIdx = direction === "up" ? idx - 1 : idx + 1;
+  if (swapIdx < 0 || swapIdx >= siblings.length) return;
+
+  const swap = siblings[swapIdx];
+  await db.update(navItems).set({ sortOrder: swap.sortOrder, updatedAt: new Date() }).where(eq(navItems.id, item.id));
+  await db.update(navItems).set({ sortOrder: item.sortOrder, updatedAt: new Date() }).where(eq(navItems.id, swap.id));
+
+  revalidatePath("/", "layout");
+  revalidatePath("/admin/menu");
 }
 
 export async function deleteNavItem(formData: FormData) {
@@ -45,5 +74,5 @@ export async function deleteNavItem(formData: FormData) {
 
   await db.delete(navItems).where(eq(navItems.id, str(formData, "id")));
   revalidatePath("/", "layout");
-  redirect("/admin/menu");
+  redirect("/admin/menu?toast=deleted");
 }
