@@ -41,7 +41,16 @@ export function AdminSidebar({ email }: { email?: string | null }) {
     >
       <div className={`flex items-center gap-3 border-b border-white/10 px-4 py-5 ${collapsed ? "justify-center" : ""}`}>
         {!collapsed && (
-          <Image src="/brand/redi-logo.png" alt="REDI" width={80} height={38} className="h-8 w-auto brightness-0 invert" />
+          <div className="inline-flex rounded-lg bg-white px-3 py-2">
+            <Image
+              src="/brand/redi-logo.png"
+              alt="REDI"
+              width={400}
+              height={189}
+              className="h-8 w-auto max-w-[120px] object-contain"
+              style={{ width: "auto", height: "2rem" }}
+            />
+          </div>
         )}
         {collapsed && <span className="text-lg font-bold text-[#d4a017]">R</span>}
       </div>

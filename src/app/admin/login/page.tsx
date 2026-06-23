@@ -11,7 +11,16 @@ export default function AdminLoginPage() {
   return (
     <div className="admin-root flex min-h-screen">
       <div className="hidden w-1/2 flex-col justify-between bg-[#1d1d1f] p-12 text-white lg:flex">
-        <Image src="/brand/redi-logo.png" alt="REDI" width={140} height={66} className="h-12 w-auto brightness-0 invert" />
+        <div className="inline-flex self-start rounded-xl bg-white px-4 py-2.5">
+          <Image
+            src="/brand/redi-logo.png"
+            alt="REDI"
+            width={400}
+            height={189}
+            className="h-12 w-auto max-w-[160px] object-contain"
+            style={{ width: "auto", height: "3rem" }}
+          />
+        </div>
         <div>
           <h2 className="text-4xl font-semibold tracking-tight">Content Studio</h2>
           <p className="mt-4 max-w-md text-lg text-white/60">
@@ -24,7 +33,14 @@ export default function AdminLoginPage() {
       <div className="flex flex-1 items-center justify-center px-6 py-16">
         <div className="w-full max-w-sm">
           <div className="mb-8 lg:hidden">
-            <Image src="/brand/redi-logo.png" alt="REDI" width={120} height={57} className="mx-auto h-10 w-auto" />
+            <Image
+              src="/brand/redi-logo.png"
+              alt="REDI"
+              width={400}
+              height={189}
+              className="mx-auto h-10 w-auto max-w-[140px] object-contain"
+              style={{ width: "auto", height: "2.5rem" }}
+            />
           </div>
           <h1 className="text-3xl font-semibold tracking-tight text-[#1d1d1f]">Sign in</h1>
           <p className="mt-2 text-[15px] text-[#86868b]">Enter your credentials to access the CMS.</p>

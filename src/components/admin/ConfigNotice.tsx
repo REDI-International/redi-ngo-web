@@ -15,7 +15,14 @@ export function ConfigNotice({ missing }: { missing?: string[] }) {
         <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1b4332]/10">
           <Shield className="h-7 w-7 text-[#1b4332]" />
         </div>
-        <Image src="/brand/redi-logo.png" alt="REDI" width={120} height={57} className="mx-auto mb-6 h-10 w-auto" />
+        <Image
+          src="/brand/redi-logo.png"
+          alt="REDI"
+          width={400}
+          height={189}
+          className="mx-auto mb-6 h-10 w-auto max-w-[140px] object-contain"
+          style={{ width: "auto", height: "2.5rem" }}
+        />
         <h1 className="text-2xl font-semibold tracking-tight text-[#1d1d1f]">CMS setup required</h1>
         <p className="mt-3 text-[15px] leading-relaxed text-[#86868b]">
           The admin panel is installed but needs environment variables before you can sign in and manage content.
