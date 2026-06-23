@@ -10,7 +10,7 @@ import { Link } from "@/i18n/navigation";
 import { stats } from "@/content/site";
 import { projects } from "@/content/projects";
 import { getNewsArticles, getFeaturedOpportunities } from "@/lib/content";
-import { getFeaturedSocialStories, getSocialHeroImage, socialPages } from "@/lib/social";
+import { getFeaturedSocialStories, socialPages } from "@/lib/social";
 
 export default async function HomePage({
   params,
@@ -36,7 +36,6 @@ export default async function HomePage({
       <Hero
         title={t("heroTitle")}
         subtitle={t("heroSubtitle")}
-        image={getSocialHeroImage()}
         primaryCta={{ label: t("viewProjects"), href: "/projects" }}
         secondaryCta={{ label: t("openOpportunities"), href: "/work-with-us/tenders" }}
       />

@@ -22,3 +22,252 @@ body {
 h1, h2, h3, h4 {
   font-family: var(--font-heading), system-ui, sans-serif;
 }
+
+/* ── Hero shape-forming animation (homepage) ── */
+
+.hero-arc {
+  stroke-dasharray: 520;
+  stroke-dashoffset: 520;
+  opacity: 0;
+  animation: hero-draw-arc 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-arc-2 {
+  stroke-dasharray: 380;
+  stroke-dashoffset: 380;
+  animation-delay: 0.35s;
+}
+
+.hero-blob {
+  opacity: 0;
+  transform-origin: center;
+  animation: hero-blob-in 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-blob-1 {
+  animation-delay: 0.1s;
+}
+
+.hero-blob-2 {
+  animation-delay: 0.5s;
+}
+
+.hero-hex {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-shape-pop 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-hex-1 {
+  animation-delay: 0.6s;
+}
+
+.hero-hex-2 {
+  animation-delay: 0.85s;
+}
+
+.hero-hex-3 {
+  animation-delay: 1.05s;
+}
+
+.hero-diamond {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-diamond-in 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0.7s;
+}
+
+.hero-diamond-inner {
+  animation-delay: 1s;
+}
+
+.hero-line {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  opacity: 0;
+  animation: hero-draw-line 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-line-1 {
+  animation-delay: 0.4s;
+}
+
+.hero-line-2 {
+  animation-delay: 0.65s;
+}
+
+.hero-line-3 {
+  animation-delay: 0.9s;
+}
+
+.hero-line-4 {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation-delay: 1.1s;
+}
+
+.hero-ring {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-ring-in 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-ring-1 {
+  animation-delay: 0.55s;
+}
+
+.hero-ring-2 {
+  animation-delay: 0.75s;
+}
+
+.hero-ring-3 {
+  animation-delay: 1.2s;
+}
+
+.hero-dot {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-dot-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-dot-1 {
+  animation-delay: 1.1s;
+}
+
+.hero-dot-2 {
+  animation-delay: 1.3s;
+}
+
+.hero-dot-3 {
+  animation-delay: 1.4s;
+}
+
+.hero-dot-4 {
+  animation-delay: 1.5s;
+}
+
+.hero-dot-5 {
+  animation-delay: 1.25s;
+}
+
+.hero-wedge {
+  opacity: 0;
+  animation: hero-wedge-in 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0.3s;
+}
+
+/* Subtle idle drift after formation */
+.hero-shapes {
+  animation: hero-idle-drift 14s ease-in-out 3.2s infinite;
+}
+
+@keyframes hero-draw-arc {
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes hero-draw-line {
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes hero-blob-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-shape-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.4) rotate(-12deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes hero-diamond-in {
+  from {
+    opacity: 0;
+    transform: scale(0.3) rotate(45deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes hero-ring-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-dot-in {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-wedge-in {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hero-idle-drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-8px, 6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-shapes,
+  .hero-arc,
+  .hero-blob,
+  .hero-hex,
+  .hero-diamond,
+  .hero-line,
+  .hero-ring,
+  .hero-dot,
+  .hero-wedge {
+    animation: none !important;
+    opacity: 1 !important;
+    stroke-dashoffset: 0 !important;
+    transform: none !important;
+  }
+}

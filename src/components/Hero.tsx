@@ -1,23 +1,18 @@
-import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { heroImages } from "@/content/media";
 import { EUBadge } from "@/components/EUEmblem";
+import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
 
 interface HeroProps {
   title: string;
   subtitle: string;
-  image?: string;
   primaryCta: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
 }
 
-export function Hero({ title, subtitle, image, primaryCta, secondaryCta }: HeroProps) {
-  const bg = image ?? heroImages.home;
-
+export function Hero({ title, subtitle, primaryCta, secondaryCta }: HeroProps) {
   return (
     <section className="relative min-h-[540px] overflow-hidden lg:min-h-[640px]">
-      <Image src={bg} alt="" fill priority className="object-cover object-center" sizes="100vw" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/20" />
+      <AnimatedHeroBackground />
       <div className="absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-[#003399] via-accent to-primary" />
       <div className="relative mx-auto flex min-h-[540px] max-w-7xl flex-col justify-center px-4 py-20 lg:min-h-[640px] lg:px-8">
         <EUBadge label="EU-Funded Programmes" className="mb-5" />
