@@ -7,6 +7,7 @@ import { routing, type Locale } from "@/i18n/routing";
 import { StructuredData } from "@/components/StructuredData";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { getNavItems } from "@/lib/navigation";
 import { siteConfig } from "@/content/site";
 import "../globals.css";
 
@@ -61,15 +62,16 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
   const messages = await getMessages();
+  const [headerNav, footerNav] = await Promise.all([getNavItems("header"), getNavItems("footer")]);
 
   return (
     <html lang={locale} className={`${outfit.variable} ${sourceSans.variable} h-full`}>
       <body className="flex min-h-full flex-col antialiased">
         <NextIntlClientProvider messages={messages}>
           <StructuredData />
-          <Header />
+          <Header items={headerNav} />
           <main className="flex-1">{children}</main>
-          <Footer />
+          <Footer items={footerNav} />
         </NextIntlClientProvider>
       </body>
     </html>

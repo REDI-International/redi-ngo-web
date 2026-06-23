@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "redi-ngo.eu", pathname: "/wp-content/**" },
       { protocol: "https", hostname: "*.fbcdn.net" },
       { protocol: "https", hostname: "*.cdninstagram.com" },
+      { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" },
     ],
   },
   async headers() {

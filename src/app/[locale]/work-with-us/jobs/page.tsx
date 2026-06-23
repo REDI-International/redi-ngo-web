@@ -24,7 +24,8 @@ export default async function JobsPage({
   const t = await getTranslations("workWithUs");
   const tExplorer = await getTranslations("explorer");
 
-  const items = getJobs().map((item) => toOpportunity(item, "job"));
+  const jobs = await getJobs();
+  const items = jobs.map((item) => toOpportunity(item, "job"));
 
   return (
     <>

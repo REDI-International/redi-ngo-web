@@ -2,7 +2,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ImageHero } from "@/components/ImageHero";
 import { SocialStoryCard, SocialFollowCard } from "@/components/SocialStoryCard";
 import { PhotoGallery } from "@/components/PhotoGallery";
-import { galleryPhotos, heroImages } from "@/content/media";
+import { heroImages } from "@/content/media";
+import { getGalleryPhotos } from "@/lib/content";
 import { getSocialStories, socialPages, socialLinks } from "@/lib/social";
 
 export async function generateMetadata({
@@ -24,6 +25,7 @@ export default async function MediaPage({
   setRequestLocale(locale);
   const t = await getTranslations("media");
   const stories = getSocialStories();
+  const galleryPhotos = await getGalleryPhotos();
 
   return (
     <>

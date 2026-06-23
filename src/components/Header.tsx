@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useTranslations, useLocale } from "next-intl";
+import { useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { navItems } from "@/content/site";
+import type { ResolvedNavItem } from "@/lib/navigation";
 
-export function Header() {
-  const t = useTranslations();
+export function Header({ items }: { items: ResolvedNavItem[] }) {
   const locale = useLocale();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -27,7 +26,7 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
-          {navItems.map((item) => (
+          {items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -35,7 +34,7 @@ export function Header() {
                 pathname.startsWith(item.href) ? "text-primary" : "text-text-muted"
               }`}
             >
-              {t(item.labelKey)}
+              {item.label}
             </Link>
           ))}
           <Link
@@ -60,14 +59,14 @@ export function Header() {
       {open && (
         <nav className="border-t border-surface-dark px-4 py-4 md:hidden">
           <div className="flex flex-col gap-3">
-            {navItems.map((item) => (
+            {items.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className="text-sm font-medium text-text"
                 onClick={() => setOpen(false)}
               >
-                {t(item.labelKey)}
+                {item.label}
               </Link>
             ))}
             <Link

@@ -4,9 +4,10 @@ import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { getTender, getTenders } from "@/lib/content";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const tenders = await getTenders();
   return routing.locales.flatMap((locale) =>
-    getTenders().map((t) => ({ locale, slug: t.slug })),
+    tenders.map((t) => ({ locale, slug: t.slug })),
   );
 }
 
@@ -16,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { slug } = await params;
-  const tender = getTender(slug);
+  const tender = await getTender(slug);
   return { title: tender?.title ?? "Tender" };
 }
 
@@ -27,7 +28,7 @@ export default async function TenderDetailPage({
 }) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const tender = getTender(slug);
+  const tender = await getTender(slug);
   if (!tender) notFound();
 
   return (

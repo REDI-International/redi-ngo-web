@@ -3,7 +3,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ImageHero } from "@/components/ImageHero";
 import { OpportunityExplorer } from "@/components/OpportunityExplorer";
 import { getTenders, toOpportunity, heroImages } from "@/lib/content";
-import { classifyOpportunity } from "@/lib/opportunities";
 
 export async function generateMetadata({
   params,
@@ -25,8 +24,9 @@ export default async function TendersPage({
   const t = await getTranslations("workWithUs");
   const tExplorer = await getTranslations("explorer");
 
-  const items = getTenders().map((item) =>
-    toOpportunity(item, classifyOpportunity(item.slug, item.title) === "grant" ? "grant" : "tender"),
+  const tenders = await getTenders();
+  const items = tenders.map((item) =>
+    toOpportunity(item, item.type === "grant" ? "grant" : "tender"),
   );
 
   return (

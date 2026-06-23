@@ -4,9 +4,10 @@ import { routing } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { getJob, getJobs } from "@/lib/content";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const jobs = await getJobs();
   return routing.locales.flatMap((locale) =>
-    getJobs().map((j) => ({ locale, slug: j.slug })),
+    jobs.map((j) => ({ locale, slug: j.slug })),
   );
 }
 
@@ -16,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  return { title: getJob(slug)?.title ?? "Job" };
+  return { title: (await getJob(slug))?.title ?? "Job" };
 }
 
 export default async function JobDetailPage({
@@ -26,7 +27,7 @@ export default async function JobDetailPage({
 }) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const job = getJob(slug);
+  const job = await getJob(slug);
   if (!job) notFound();
 
   return (

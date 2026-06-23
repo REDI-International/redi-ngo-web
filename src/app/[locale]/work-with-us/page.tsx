@@ -6,7 +6,6 @@ import { EUBadge } from "@/components/EUEmblem";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import { getTenders, getJobs, toOpportunity, heroImages } from "@/lib/content";
 import { getFeaturedSocialStories } from "@/lib/social";
-import { classifyOpportunity } from "@/lib/opportunities";
 
 export async function generateMetadata({
   params,
@@ -27,24 +26,22 @@ export default async function WorkWithUsPage({
   setRequestLocale(locale);
   const t = await getTranslations("workWithUs");
 
-  const recentTenders = getTenders()
-    .filter((item) => item.parsedStatus === "open")
+  const [allTenders, allJobs] = await Promise.all([getTenders(), getJobs()]);
+  const openTenders = allTenders.filter((item) => item.parsedStatus === "open");
+  const openJobs = allJobs.filter((item) => item.parsedStatus === "open");
+
+  const recentTenders = openTenders
     .slice(0, 4)
-    .map((item) =>
-      toOpportunity(item, classifyOpportunity(item.slug, item.title) === "grant" ? "grant" : "tender"),
-    );
-  const recentJobs = getJobs()
-    .filter((item) => item.parsedStatus === "open")
-    .slice(0, 4)
-    .map((item) => toOpportunity(item, "job"));
+    .map((item) => toOpportunity(item, item.type === "grant" ? "grant" : "tender"));
+  const recentJobs = openJobs.slice(0, 4).map((item) => toOpportunity(item, "job"));
 
   const heroImage = heroImages.home;
   const socialImages = getFeaturedSocialStories(2);
   const tenderCardImage = socialImages[0]?.image ?? heroImages.tenders;
   const jobCardImage = socialImages[1]?.image ?? heroImages.jobs;
 
-  const openTenderCount = getTenders().filter((t) => t.parsedStatus === "open").length;
-  const openJobCount = getJobs().filter((j) => j.parsedStatus === "open").length;
+  const openTenderCount = openTenders.length;
+  const openJobCount = openJobs.length;
 
   return (
     <>

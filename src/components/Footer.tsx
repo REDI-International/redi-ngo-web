@@ -1,10 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { navItems, siteConfig, offices } from "@/content/site";
+import { siteConfig, offices } from "@/content/site";
 import { EUEmblem } from "@/components/EUEmblem";
+import type { ResolvedNavItem } from "@/lib/navigation";
 
-export async function Footer() {
+export async function Footer({ items }: { items: ResolvedNavItem[] }) {
   const t = await getTranslations();
   const year = new Date().getFullYear();
 
@@ -38,10 +39,10 @@ export async function Footer() {
               Navigation
             </p>
             <ul className="mt-4 space-y-2.5">
-              {navItems.map((item) => (
+              {items.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="text-sm text-white/80 hover:text-accent">
-                    {t(item.labelKey)}
+                    {item.label}
                   </Link>
                 </li>
               ))}

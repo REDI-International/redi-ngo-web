@@ -22,7 +22,7 @@ export default async function NewsPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("news");
-  const articles = getNewsArticles(25);
+  const articles = await getNewsArticles(25);
   const [featured, ...rest] = articles;
 
   return (

@@ -25,8 +25,10 @@ export default async function HomePage({
   const tWork = await getTranslations("workWithUs");
 
   const activeProjects = projects.filter((p) => p.status === "active");
-  const latestNews = getNewsArticles(3);
-  const openOpportunities = getFeaturedOpportunities(4);
+  const [latestNews, openOpportunities] = await Promise.all([
+    getNewsArticles(3),
+    getFeaturedOpportunities(4),
+  ]);
   const socialStories = getFeaturedSocialStories(6);
 
   return (

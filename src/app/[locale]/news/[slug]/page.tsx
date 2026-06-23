@@ -5,9 +5,10 @@ import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { getNewsArticle, getNewsArticles } from "@/lib/content";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const articles = await getNewsArticles();
   return routing.locales.flatMap((locale) =>
-    getNewsArticles().map((a) => ({ locale, slug: a.slug })),
+    articles.map((a) => ({ locale, slug: a.slug })),
   );
 }
 
@@ -17,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { slug } = await params;
-  const article = getNewsArticle(slug);
+  const article = await getNewsArticle(slug);
   return { title: article?.title ?? "News" };
 }
 
@@ -28,7 +29,7 @@ export default async function NewsDetailPage({
 }) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const article = getNewsArticle(slug);
+  const article = await getNewsArticle(slug);
   if (!article) notFound();
 
   return (

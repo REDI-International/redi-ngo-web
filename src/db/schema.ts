@@ -1,4 +1,23 @@
-import { pgTable, text, timestamp, uuid, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid, boolean, integer, jsonb } from "drizzle-orm/pg-core";
+
+/** Tenders, jobs, and grants — unified so a single model powers the explorer. */
+export const opportunities = pgTable("opportunities", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  slug: text("slug").notNull().unique(),
+  type: text("type").notNull().default("tender"), // "tender" | "job" | "grant"
+  title: text("title").notNull(),
+  excerpt: text("excerpt"),
+  body: text("body"),
+  country: text("country"),
+  reference: text("reference"),
+  deadline: timestamp("deadline", { withTimezone: true }),
+  image: text("image"),
+  published: boolean("published").notNull().default(true),
+  sortOrder: integer("sort_order").notNull().default(0),
+  publishedAt: timestamp("published_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
 
 export const newsPosts = pgTable("news_posts", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -7,22 +26,44 @@ export const newsPosts = pgTable("news_posts", {
   excerpt: text("excerpt"),
   body: text("body"),
   image: text("image"),
-  language: text("language").default("en"),
-  publishedAt: timestamp("published_at"),
-  createdAt: timestamp("created_at").defaultNow(),
+  country: text("country"),
+  language: text("language").notNull().default("en"),
+  published: boolean("published").notNull().default(true),
+  sortOrder: integer("sort_order").notNull().default(0),
+  publishedAt: timestamp("published_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
 
-export const tenders = pgTable("tenders", {
+export const galleryImages = pgTable("gallery_images", {
   id: uuid("id").primaryKey().defaultRandom(),
-  slug: text("slug").notNull().unique(),
-  title: text("title").notNull(),
-  excerpt: text("excerpt"),
-  body: text("body"),
-  deadline: timestamp("deadline"),
-  country: text("country"),
-  isActive: boolean("is_active").default(true),
-  publishedAt: timestamp("published_at"),
-  createdAt: timestamp("created_at").defaultNow(),
+  url: text("url").notNull(),
+  alt: text("alt"),
+  caption: text("caption"),
+  category: text("category").notNull().default("community"),
+  published: boolean("published").notNull().default(true),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
+export const navItems = pgTable("nav_items", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  label: text("label").notNull(),
+  href: text("href").notNull(),
+  location: text("location").notNull().default("header"), // "header" | "footer"
+  published: boolean("published").notNull().default(true),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
+/** Generic key/value store for editable sections, banners, and site settings. */
+export const siteSettings = pgTable("site_settings", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  key: text("key").notNull().unique(),
+  value: jsonb("value"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
 
 export const contactMessages = pgTable("contact_messages", {
@@ -30,5 +71,15 @@ export const contactMessages = pgTable("contact_messages", {
   name: text("name").notNull(),
   email: text("email").notNull(),
   message: text("message").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
+
+export type Opportunity = typeof opportunities.$inferSelect;
+export type NewOpportunity = typeof opportunities.$inferInsert;
+export type NewsPost = typeof newsPosts.$inferSelect;
+export type NewNewsPost = typeof newsPosts.$inferInsert;
+export type GalleryImage = typeof galleryImages.$inferSelect;
+export type NewGalleryImage = typeof galleryImages.$inferInsert;
+export type NavItem = typeof navItems.$inferSelect;
+export type NewNavItem = typeof navItems.$inferInsert;
+export type SiteSetting = typeof siteSettings.$inferSelect;
