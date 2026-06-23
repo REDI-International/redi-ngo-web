@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { EUBadge } from "@/components/EUEmblem";
-import { HeroProgramGrid } from "@/components/HeroProgramGrid";
+import { HeroEcosystem } from "@/components/HeroEcosystem";
 
 interface HeroProps {
   title: string;
@@ -67,7 +67,7 @@ export function Hero({
           </div>
 
           <div className="relative mx-auto w-full max-w-md lg:max-w-none lg:pl-4">
-            <HeroProgramGrid labels={ecosystemLabels} />
+            <HeroEcosystem labels={ecosystemLabels} />
           </div>
         </div>
       </div>
