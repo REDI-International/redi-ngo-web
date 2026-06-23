@@ -1,5 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Hero } from "@/components/Hero";
+import { EmpowermentStatement } from "@/components/EmpowermentStatement";
+import { PillarsSection } from "@/components/PillarsSection";
 import { StatsBar } from "@/components/StatsBar";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ProjectCardVisual } from "@/components/ProjectCardVisual";
@@ -31,14 +33,86 @@ export default async function HomePage({
   ]);
   const socialStories = getFeaturedSocialStories(6);
 
+  const ecosystemLabels = {
+    businessClubs: t("ecoBusinessClubs"),
+    rediFund: t("ecoRediFund"),
+    rediRecycling: t("ecoRediRecycling"),
+    grantSupport: t("ecoGrantSupport"),
+    technicalSupport: t("ecoTechnicalSupport"),
+    euProjects: t("ecoEuProjects"),
+    incubator: t("ecoIncubator"),
+  };
+
+  const pillars = [
+    {
+      key: "learn",
+      title: t("pillarLearnTitle"),
+      description: t("pillarLearnDesc"),
+      icon: "learn" as const,
+      color: "#2563EB",
+      bg: "#EEF2FF",
+    },
+    {
+      key: "create",
+      title: t("pillarCreateTitle"),
+      description: t("pillarCreateDesc"),
+      icon: "create" as const,
+      color: "#F59E0B",
+      bg: "#FFFBEB",
+    },
+    {
+      key: "connect",
+      title: t("pillarConnectTitle"),
+      description: t("pillarConnectDesc"),
+      icon: "connect" as const,
+      color: "#EC4899",
+      bg: "#FDF2F8",
+    },
+    {
+      key: "finance",
+      title: t("pillarFinanceTitle"),
+      description: t("pillarFinanceDesc"),
+      icon: "finance" as const,
+      color: "#0D9488",
+      bg: "#F0FDFA",
+    },
+    {
+      key: "sell",
+      title: t("pillarSellTitle"),
+      description: t("pillarSellDesc"),
+      icon: "sell" as const,
+      color: "#7C3AED",
+      bg: "#F5F3FF",
+    },
+  ];
+
   return (
     <>
       <Hero
         title={t("heroTitle")}
         subtitle={t("heroSubtitle")}
+        ecosystemIntro={t("heroEcosystemIntro")}
+        euBadgeLabel={t("euBadgeLabel")}
+        ecosystemLabels={ecosystemLabels}
         primaryCta={{ label: t("viewProjects"), href: "/projects" }}
         secondaryCta={{ label: t("openOpportunities"), href: "/work-with-us/tenders" }}
       />
+
+      <EmpowermentStatement
+        title={t("empowermentTitle")}
+        body={t("empowermentBody")}
+        highlight={t("empowermentHighlight")}
+        cta={t("empowermentCta")}
+        ctaHref="/impact"
+      />
+
+      <PillarsSection
+        title={t("pillarsTitle")}
+        subtitle={t("pillarsSubtitle")}
+        cta={t("pillarsCta")}
+        pillars={pillars}
+      />
+
       <StatsBar stats={stats} />
 
       <section className="bg-white py-16">
