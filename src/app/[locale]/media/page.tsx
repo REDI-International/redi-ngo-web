@@ -2,9 +2,11 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ImageHero } from "@/components/ImageHero";
 import { SocialStoryCard, SocialFollowCard } from "@/components/SocialStoryCard";
 import { PhotoGallery } from "@/components/PhotoGallery";
+import { YouTubeSection } from "@/components/YouTubeSection";
 import { heroImages } from "@/content/media";
 import { getGalleryPhotos } from "@/lib/content";
 import { getSocialStories, socialPages, socialLinks } from "@/lib/social";
+import type { Locale } from "@/i18n/routing";
 
 export async function generateMetadata({
   params,
@@ -68,6 +70,8 @@ export default async function MediaPage({
           </a>
         </div>
       </section>
+
+      <YouTubeSection locale={locale as Locale} compact />
 
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">

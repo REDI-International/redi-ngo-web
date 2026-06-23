@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/content/site";
 import { projects } from "@/content/projects";
 import { impactInitiatives } from "@/content/impact";
+import { entrepreneurStories } from "@/content/entrepreneur-stories";
 import { getNewsArticles, getTenders } from "@/lib/content";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://redi-ngo-web.vercel.app";
@@ -28,6 +28,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     for (const project of projects) {
       entries.push({ url: `${baseUrl}${locale}/projects#${project.slug}`, changeFrequency: "monthly", priority: 0.7 });
+    }
+
+    for (const story of entrepreneurStories) {
+      entries.push({ url: `${baseUrl}${locale}/stories/${story.slug}`, changeFrequency: "monthly", priority: 0.7 });
     }
 
     for (const article of newsArticles) {

@@ -8,11 +8,13 @@ import { ProjectCardVisual } from "@/components/ProjectCardVisual";
 import { StoryCard } from "@/components/StoryCard";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import { SocialStoryCard, SocialFollowCard } from "@/components/SocialStoryCard";
+import { YouTubeSection } from "@/components/YouTubeSection";
 import { Link } from "@/i18n/navigation";
 import { stats } from "@/content/site";
 import { projects } from "@/content/projects";
 import { getNewsArticles, getFeaturedOpportunities } from "@/lib/content";
 import { getFeaturedSocialStories, socialPages } from "@/lib/social";
+import type { Locale } from "@/i18n/routing";
 
 export async function StaticHomeContent({ locale }: { locale: string }) {
   setRequestLocale(locale);
@@ -74,6 +76,8 @@ export async function StaticHomeContent({ locale }: { locale: string }) {
       />
 
       <StatsBar stats={stats} />
+
+      <YouTubeSection locale={locale as Locale} />
 
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
