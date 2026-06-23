@@ -28,6 +28,8 @@ function loadLocalEnv() {
     if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
       value = value.slice(1, -1);
     }
+    // `vercel env pull` can append a literal "\n" to single-line values.
+    value = value.replace(/\\n$/, "").replace(/[\r\n]+$/, "").trim();
     if (!process.env[key]) process.env[key] = value;
   }
 }
@@ -37,9 +39,10 @@ async function main() {
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !serviceKey) {
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || (!serviceKey && !anonKey)) {
     console.error(
-      "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY.\n" +
+      "Missing NEXT_PUBLIC_SUPABASE_URL and a key (SUPABASE_SERVICE_ROLE_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY).\n" +
         "Add them to .env.local (see .env.example) and try again.",
     );
     process.exit(1);
@@ -50,6 +53,31 @@ async function main() {
   if (!password) {
     console.error("Provide a password:  npm run create-admin -- '<password>' [email]");
     process.exit(1);
+  }
+
+  // Without a service-role key we can't auto-confirm. Fall back to public sign-up.
+  if (!serviceKey) {
+    const supabase = createClient(url, anonKey!, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    if (error) {
+      console.error("Sign-up failed:", error.message);
+      process.exit(1);
+    }
+    const confirmed = Boolean(data.user?.confirmed_at || data.user?.email_confirmed_at);
+    console.log(`✓ Sign-up submitted for ${email} (id: ${data.user?.id ?? "?"})`);
+    if (confirmed) {
+      console.log("Email confirmation is disabled — you can sign in now at /admin/login");
+    } else {
+      console.log(
+        "NOTE: email confirmation appears to be ON. Either click the confirmation\n" +
+          "link sent to the inbox, or disable 'Confirm email' in Supabase →\n" +
+          "Authentication → Providers → Email, then re-run, or add the\n" +
+          "SUPABASE_SERVICE_ROLE_KEY for instant auto-confirmed creation.",
+      );
+    }
+    return;
   }
 
   const supabase = createClient(url, serviceKey, {
