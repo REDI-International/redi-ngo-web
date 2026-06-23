@@ -19,21 +19,25 @@ export async function getAdminSession(): Promise<AdminSession | null> {
   const db = getDb();
   if (!db) return null;
 
-  const rows = await db
-    .select()
-    .from(adminUsers)
-    .where(eq(adminUsers.email, user.email.toLowerCase()))
-    .limit(1);
+  try {
+    const rows = await db
+      .select()
+      .from(adminUsers)
+      .where(eq(adminUsers.email, user.email.toLowerCase()))
+      .limit(1);
 
-  const profile = rows[0];
-  if (!profile) return null;
+    const profile = rows[0];
+    if (!profile) return null;
 
-  return {
-    userId: user.id,
-    email: user.email,
-    profile,
-    role: profile.role as AdminRole,
-  };
+    return {
+      userId: user.id,
+      email: user.email,
+      profile,
+      role: profile.role as AdminRole,
+    };
+  } catch {
+    return null;
+  }
 }
 
 export async function requireAdminSession(): Promise<AdminSession> {
