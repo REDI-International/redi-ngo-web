@@ -3,7 +3,7 @@ export const siteConfig = {
   tagline: "Empowering Roma entrepreneurs across Europe",
   description:
     "REDI is an ecosystem builder and connector between Roma entrepreneurs operating in their communities and the mainstream business environment.",
-  url: "https://redi-ngo.eu",
+  url: "https://redi-ngo-web.vercel.app",
   email: "info@redi-ngo.eu",
   social: {
     facebook: "https://www.facebook.com/REDI2018",

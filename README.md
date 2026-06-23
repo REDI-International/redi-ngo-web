@@ -1,13 +1,13 @@
 # REDI NGO Website
 
-Modern redesign of [redi-ngo.eu](https://redi-ngo.eu) — built with Next.js, Tailwind CSS, and Supabase.
+Modern redesign of the REDI NGO site — built with Next.js, Tailwind CSS, and Supabase. Production app: [redi-ngo-web.vercel.app](https://redi-ngo-web.vercel.app). The legacy WordPress site remains at [redi-ngo.eu](https://redi-ngo.eu) until DNS is switched.
 
 ## Live
 
 | Environment | URL |
 |-------------|-----|
-| **Production** | Deploy via Vercel |
-| **Mirror (archive)** | https://redi-ngo-site.vercel.app |
+| **Production (CMS)** | https://redi-ngo-web.vercel.app |
+| **Content mirror (archive)** | https://redi-ngo-site.vercel.app |
 
 ## Stack
 

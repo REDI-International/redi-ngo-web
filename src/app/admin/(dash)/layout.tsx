@@ -41,6 +41,18 @@ export default async function DashLayout({ children }: { children: React.ReactNo
           <code className="rounded bg-amber-100 px-1">SUPABASE_SERVICE_ROLE_KEY</code> to invite users and upload media.
         </div>
       )}
+      <div className="mb-6 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-950">
+        <strong>Preview site on Vercel.</strong> This CMS edits{" "}
+        <a
+          href="https://redi-ngo-web.vercel.app"
+          className="font-medium underline decoration-sky-400/60 underline-offset-2 hover:text-sky-900"
+          target="_blank"
+          rel="noreferrer"
+        >
+          redi-ngo-web.vercel.app
+        </a>
+        . <span className="text-sky-900/90">redi-ngo.eu remains WordPress until DNS is switched.</span>
+      </div>
       {children}
     </AdminShell>
   );

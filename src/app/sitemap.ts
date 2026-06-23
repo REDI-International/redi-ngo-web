@@ -4,7 +4,7 @@ import { projects } from "@/content/projects";
 import { impactInitiatives } from "@/content/impact";
 import { getNewsArticles, getTenders } from "@/lib/content";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://redi-ngo.eu";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://redi-ngo-web.vercel.app";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = ["", "/about", "/impact", "/projects", "/news", "/work-with-us", "/work-with-us/tenders", "/contact"];

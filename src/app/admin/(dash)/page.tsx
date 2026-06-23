@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Plus, Clock, ArrowRight } from "lucide-react";
 import { getDashboardStats, getRecentEdits } from "@/db/queries";
 import { PageHeader, StatCard } from "@/components/admin/ui";
+import { siteConfig } from "@/content/site";
 
 const TYPE_LABELS: Record<string, string> = {
   news: "News",
@@ -39,7 +40,7 @@ export default async function AdminDashboard() {
               { href: "/admin/news/new", label: "New article" },
               { href: "/admin/opportunities/new", label: "New opportunity" },
               { href: "/admin/media/new", label: "Upload media" },
-              { href: "/en?edit=1", label: "Open live editor", external: true },
+              { href: `${siteConfig.url}/en?edit=1`, label: "Open live editor", external: true },
             ].map((action) => (
               action.external ? (
                 <a
