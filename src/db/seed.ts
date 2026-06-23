@@ -19,6 +19,8 @@ function loadLocalEnv() {
     if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
       value = value.slice(1, -1);
     }
+    // `vercel env pull` can append a literal "\n" to single-line values.
+    value = value.replace(/\\n$/, "").replace(/[\r\n]+$/, "").trim();
     if (!process.env[key]) process.env[key] = value;
   }
 }
