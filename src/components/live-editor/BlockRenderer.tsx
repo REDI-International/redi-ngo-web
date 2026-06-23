@@ -14,6 +14,7 @@ import { stats } from "@/content/site";
 import { projects } from "@/content/projects";
 import { getNewsArticles, getFeaturedOpportunities } from "@/lib/content";
 import { getFeaturedSocialStories, socialPages } from "@/lib/social";
+import type { Locale } from "@/i18n/routing";
 import type { PageBlock } from "@/lib/blocks/types";
 import { BlockPreview } from "./BlockPreview";
 
@@ -75,6 +76,7 @@ export async function ServerBlockRenderer({
           highlight={block.subtitle ?? ""}
           cta={(block.metadata.linkLabel as string) ?? "Learn more"}
           ctaHref={block.link ?? "/impact"}
+          locale={locale as Locale}
         />
       );
 

@@ -56,6 +56,19 @@
     "allNews": "Toate știrile",
     "whereWeWork": "Unde activăm",
     "whereWeWorkDesc": "REDI operează în Europa de Est și Balcani, sprijinind antreprenorii romi în 7 țări.",
+    "entrepreneurCarousel": {
+      "heading": "Cunoaște antreprenorii romi",
+      "previous": "Povestea anterioară",
+      "next": "Povestea următoare",
+      "readStory": "Citește povestea",
+      "selectPrompt": "Carusel povești antreprenori"
+    },
+    "staffLogin": {
+      "title": "Echipa REDI — editează acest site",
+      "description": "Personalul și editorii se pot autentifica pentru a actualiza conținutul, imaginile și secțiunile paginilor.",
+      "signIn": "Autentificare staff",
+      "openEditor": "Deschide editorul"
+    },
     "entrepreneurCollage": {
       "close": "Închide",
       "previous": "Anterior",

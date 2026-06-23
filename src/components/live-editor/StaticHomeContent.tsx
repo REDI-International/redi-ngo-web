@@ -66,6 +66,7 @@ export async function StaticHomeContent({ locale }: { locale: string }) {
         highlight={t("empowermentHighlight")}
         cta={t("empowermentCta")}
         ctaHref="/impact"
+        locale={locale as Locale}
       />
 
       <PillarsSection

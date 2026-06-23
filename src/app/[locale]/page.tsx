@@ -3,6 +3,7 @@ import { listPageBlocks } from "@/lib/blocks/queries";
 import { EditablePageShell } from "@/components/live-editor/EditablePageShell";
 import { BlockDrivenPage } from "@/components/live-editor/BlockRenderer";
 import { StaticHomeContent } from "@/components/live-editor/StaticHomeContent";
+import { StaffLoginSection } from "@/components/StaffLoginSection";
 
 export default async function HomePage({
   params,
@@ -15,12 +16,15 @@ export default async function HomePage({
   const blocks = await listPageBlocks("home", locale);
 
   return (
-    <EditablePageShell
-      pageSlug="home"
-      locale={locale}
-      initialBlocks={blocks}
-      fallbackContent={<StaticHomeContent locale={locale} />}
-      serverRenderedBlocks={blocks.length > 0 ? <BlockDrivenPage blocks={blocks} locale={locale} /> : undefined}
-    />
+    <>
+      <EditablePageShell
+        pageSlug="home"
+        locale={locale}
+        initialBlocks={blocks}
+        fallbackContent={<StaticHomeContent locale={locale} />}
+        serverRenderedBlocks={blocks.length > 0 ? <BlockDrivenPage blocks={blocks} locale={locale} /> : undefined}
+      />
+      <StaffLoginSection />
+    </>
   );
 }

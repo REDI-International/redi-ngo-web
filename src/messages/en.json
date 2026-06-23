@@ -56,6 +56,19 @@
     "allNews": "All news",
     "whereWeWork": "Where We Work",
     "whereWeWorkDesc": "REDI operates across Eastern Europe and the Balkans, supporting Roma entrepreneurs in 7 countries.",
+    "entrepreneurCarousel": {
+      "heading": "Meet Roma entrepreneurs",
+      "previous": "Previous story",
+      "next": "Next story",
+      "readStory": "Read story",
+      "selectPrompt": "Entrepreneur stories carousel"
+    },
+    "staffLogin": {
+      "title": "REDI team — edit this website",
+      "description": "Staff and editors can sign in to update content, images, and page sections.",
+      "signIn": "Staff sign in",
+      "openEditor": "Open editor"
+    },
     "entrepreneurCollage": {
       "close": "Close",
       "previous": "Previous",

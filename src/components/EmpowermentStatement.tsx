@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
-import { EntrepreneurCollage } from "@/components/EntrepreneurCollage";
+import { EntrepreneurCarousel } from "@/components/EntrepreneurCarousel";
+import type { Locale } from "@/i18n/routing";
 
 interface EmpowermentStatementProps {
   title: string;
@@ -7,9 +8,10 @@ interface EmpowermentStatementProps {
   highlight: string;
   cta: string;
   ctaHref: string;
+  locale: Locale;
 }
 
-export function EmpowermentStatement({ title, body, highlight, cta, ctaHref }: EmpowermentStatementProps) {
+export function EmpowermentStatement({ title, body, highlight, cta, ctaHref, locale }: EmpowermentStatementProps) {
   return (
     <section className="border-y border-surface-dark bg-white">
       <div className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
@@ -28,7 +30,7 @@ export function EmpowermentStatement({ title, body, highlight, cta, ctaHref }: E
             </Link>
           </div>
 
-          <EntrepreneurCollage variant="card" priority />
+          <EntrepreneurCarousel locale={locale} priority />
         </div>
       </div>
     </section>
