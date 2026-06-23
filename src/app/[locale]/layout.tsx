@@ -9,6 +9,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getNavItems } from "@/lib/navigation";
 import { siteConfig } from "@/content/site";
+import { LiveEditLayoutShell } from "@/components/live-editor/LiveEditLayoutShell";
 import "../globals.css";
 
 const outfit = Outfit({
@@ -68,10 +69,12 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${outfit.variable} ${sourceSans.variable} h-full`}>
       <body className="flex min-h-full flex-col antialiased">
         <NextIntlClientProvider messages={messages}>
-          <StructuredData />
-          <Header items={headerNav} />
-          <main className="flex-1">{children}</main>
-          <Footer items={footerNav} />
+          <LiveEditLayoutShell locale={locale}>
+            <StructuredData />
+            <Header items={headerNav} />
+            <main className="flex-1">{children}</main>
+            <Footer items={footerNav} />
+          </LiveEditLayoutShell>
         </NextIntlClientProvider>
       </body>
     </html>

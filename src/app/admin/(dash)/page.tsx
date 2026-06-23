@@ -39,8 +39,20 @@ export default async function AdminDashboard() {
               { href: "/admin/news/new", label: "New article" },
               { href: "/admin/opportunities/new", label: "New opportunity" },
               { href: "/admin/media/new", label: "Upload media" },
-              { href: "/admin/pages/new", label: "Add page section" },
+              { href: "/en?edit=1", label: "Open live editor", external: true },
             ].map((action) => (
+              action.external ? (
+                <a
+                  key={action.href}
+                  href={action.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 rounded-xl border border-black/[0.06] bg-[#fafafa] px-4 py-3 text-sm font-medium text-[#1d1d1f] transition hover:border-[#1b4332]/30 hover:bg-white"
+                >
+                  <Plus className="h-4 w-4 text-[#1b4332]" />
+                  {action.label}
+                </a>
+              ) : (
               <Link
                 key={action.href}
                 href={action.href}
@@ -49,6 +61,7 @@ export default async function AdminDashboard() {
                 <Plus className="h-4 w-4 text-[#1b4332]" />
                 {action.label}
               </Link>
+              )
             ))}
           </div>
         </div>

@@ -36,7 +36,7 @@ async function main() {
   loadLocalEnv();
 
   const drizzleDir = resolve(process.cwd(), "drizzle");
-  const files = ["0000_zippy_luke_cage.sql", "0001_page_sections.sql", "0002_admin_users.sql"];
+  const files = ["0000_zippy_luke_cage.sql", "0001_page_sections.sql", "0002_admin_users.sql", "0003_page_sections_language.sql"];
 
   for (const file of files) {
     const path = resolve(drizzleDir, file);
