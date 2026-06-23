@@ -38,6 +38,13 @@ export async function StaticHomeContent({ locale }: { locale: string }) {
     technicalSupport: t("ecoTechnicalSupport"),
     euProjects: t("ecoEuProjects"),
     incubator: t("ecoIncubator"),
+    hubTitle: t("ecoHubTitle"),
+    hubSubtitle: t("ecoHubSubtitle"),
+    funding: t("ecoFunding"),
+    learning: t("ecoLearning"),
+    advocacy: t("ecoAdvocacy"),
+    community: t("ecoCommunity"),
+    tools: t("ecoTools"),
   };
 
   const pillars = [

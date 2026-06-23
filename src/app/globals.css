@@ -272,77 +272,119 @@ h1, h2, h3, h4 {
   }
 }
 
-/* ── White ecosystem hero (homepage) ── */
+/* ── Vibrant ecosystem hero (homepage) ── */
 
-.eco-visual {
-  animation: eco-idle-drift 18s ease-in-out 2s infinite;
+/* Gentle floating of each branch node (GPU: transform only) */
+.heco-node {
+  animation: heco-float 7s ease-in-out infinite;
+  will-change: transform;
 }
 
-.eco-node-group {
-  opacity: 0;
-  animation: eco-node-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+/* Energy flowing outward along each connector */
+.heco-flow {
+  stroke-dasharray: 6 14;
+  animation: heco-flow 1.1s linear infinite;
 }
 
-.eco-line {
-  stroke-dasharray: 40;
-  stroke-dashoffset: 40;
-  opacity: 0;
-  animation: eco-line-in 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+/* Glow particle travelling hub → node via CSS custom props */
+.heco-particle {
+  animation: heco-particle 4.5s linear infinite;
+  will-change: transform, opacity;
 }
 
-.eco-label {
-  opacity: 0;
-  animation: eco-label-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+/* Slowly rotating multi-colour hub ring */
+.heco-spin {
+  animation: heco-spin 22s linear infinite;
+  will-change: transform;
 }
 
-@keyframes eco-node-in {
-  from {
-    opacity: 0;
-    transform: scale(0.6);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+/* Expanding pulse rings around the hub */
+.heco-pulse-ring {
+  animation: heco-pulse-ring 3.2s ease-out infinite;
+  will-change: transform, opacity;
 }
 
-@keyframes eco-line-in {
-  to {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
+/* Drifting colour-mesh backdrop */
+.heco-aurora {
+  animation: heco-aurora 18s ease-in-out infinite;
+  will-change: transform;
 }
 
-@keyframes eco-label-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -40%);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
-}
-
-@keyframes eco-idle-drift {
+@keyframes heco-float {
   0%,
   100% {
-    transform: translate(0, 0);
+    transform: translateY(0);
   }
   50% {
-    transform: translate(4px, -6px);
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes heco-flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+@keyframes heco-particle {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(var(--dx) * 1px), calc(var(--dy) * 1px));
+    opacity: 0;
+  }
+}
+
+@keyframes heco-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes heco-pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes heco-aurora {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(2%, -2%) scale(1.06);
+  }
+  66% {
+    transform: translate(-2%, 2%) scale(0.97);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .eco-visual,
-  .eco-node-group,
-  .eco-line,
-  .eco-label {
+  .heco-node,
+  .heco-flow,
+  .heco-spin,
+  .heco-pulse-ring,
+  .heco-aurora {
     animation: none !important;
-    opacity: 1 !important;
-    stroke-dashoffset: 0 !important;
     transform: none !important;
+  }
+  .heco-particle {
+    animation: none !important;
+    opacity: 0 !important;
   }
 }
 

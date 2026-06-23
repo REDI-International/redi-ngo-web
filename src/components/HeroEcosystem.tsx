@@ -1,258 +1,270 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Banknote, GraduationCap, Megaphone, Users } from "lucide-react";
+import React, { useState } from "react";
+import {
+  Banknote,
+  GraduationCap,
+  Megaphone,
+  Users,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
 
 interface HeroEcosystemProps {
   labels: Record<string, string>;
 }
 
+type EcoNode = {
+  id: string;
+  title: string;
+  desc: string;
+  icon: LucideIcon;
+  /** bold gradient (135deg) */
+  from: string;
+  to: string;
+  /** glow / accent base color */
+  glow: string;
+  /** position in 0–100 viewBox space */
+  x: number;
+  y: number;
+};
+
 export function HeroEcosystem({ labels }: HeroEcosystemProps) {
-  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const get = (key: string, fallback: string) => labels[key] ?? fallback;
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const getLabel = (key: string, fallback: string) => labels[key] ?? fallback;
-
-  const nodes = [
+  // Five ecosystem branches arranged as a pentagon around the hub.
+  // Centre is (50, 50); radius ≈ 33 in the 0–100 viewBox.
+  const nodes: EcoNode[] = [
     {
       id: "funding",
-      title: "Funding",
-      items: [getLabel("rediFund", "REDI Fund"), getLabel("grantSupport", "Grants")],
+      title: get("funding", "Funding"),
+      desc: get("rediFund", "REDI Fund"),
       icon: Banknote,
-      x: 85,
-      y: 15,
-      color: "#D4A017",
-      bg: "from-[#D4A017]/20 to-[#D4A017]/5",
-      border: "border-[#D4A017]/30",
-      path: "M 250 250 C 350 250, 350 75, 425 75",
-      delay: "0s",
-      floatDelay: "0s",
+      from: "#FCD34D",
+      to: "#D4A017",
+      glow: "#E6A817",
+      x: 50,
+      y: 17,
     },
     {
       id: "learning",
-      title: "Learning",
-      items: [
-        getLabel("incubator", "Incubator"),
-        getLabel("technicalSupport", "Tech Support"),
-        "REDI.business",
-      ],
+      title: get("learning", "Learning"),
+      desc: get("incubator", "Incubator"),
       icon: GraduationCap,
-      x: 85,
-      y: 85,
-      color: "#003399",
-      bg: "from-[#003399]/20 to-[#003399]/5",
-      border: "border-[#003399]/30",
-      path: "M 250 250 C 320 250, 300 425, 425 425",
-      delay: "1.5s",
-      floatDelay: "1s",
-    },
-    {
-      id: "advocacy",
-      title: "Advocacy",
-      items: [getLabel("euProjects", "EU Projects")],
-      icon: Megaphone,
-      x: 15,
-      y: 15,
-      color: "#1B4332",
-      bg: "from-[#1B4332]/20 to-[#1B4332]/5",
-      border: "border-[#1B4332]/30",
-      path: "M 250 250 C 150 250, 150 75, 75 75",
-      delay: "3s",
-      floatDelay: "2s",
+      from: "#3B82F6",
+      to: "#1E3A8A",
+      glow: "#2563EB",
+      x: 81.4,
+      y: 39.8,
     },
     {
       id: "community",
-      title: "Community",
-      items: [getLabel("businessClubs", "Business Clubs")],
+      title: get("community", "Community"),
+      desc: get("businessClubs", "Business Clubs"),
       icon: Users,
-      x: 15,
-      y: 85,
-      color: "#E91E63",
-      bg: "from-[#E91E63]/20 to-[#E91E63]/5",
-      border: "border-[#E91E63]/30",
-      path: "M 250 250 C 180 250, 200 425, 75 425",
-      delay: "4.5s",
-      floatDelay: "3s",
+      from: "#FB7185",
+      to: "#E11D48",
+      glow: "#F43F5E",
+      x: 69.4,
+      y: 76.7,
+    },
+    {
+      id: "tools",
+      title: get("tools", "Digital Tools"),
+      desc: "redi.business",
+      icon: Sparkles,
+      from: "#A78BFA",
+      to: "#7C3AED",
+      glow: "#8B5CF6",
+      x: 30.6,
+      y: 76.7,
+    },
+    {
+      id: "advocacy",
+      title: get("advocacy", "Advocacy"),
+      desc: get("euProjects", "EU Projects"),
+      icon: Megaphone,
+      from: "#34D399",
+      to: "#047857",
+      glow: "#10B981",
+      x: 18.6,
+      y: 39.8,
     },
   ];
 
-  if (!mounted) return <div className="w-full max-w-[600px] aspect-square mx-auto" />;
-
   return (
-    <div className="relative mx-auto w-full max-w-[600px] aspect-square">
-      {/* Background glowing orbs for depth */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-full">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-[pulse_8s_ease-in-out_infinite]" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-accent/10 rounded-full blur-3xl animate-[pulse_10s_ease-in-out_infinite_1s]" />
-      </div>
+    <div
+      className="relative mx-auto aspect-square w-full max-w-[560px]"
+      onMouseLeave={() => setHovered(null)}
+    >
+      {/* Vibrant aurora / colour-mesh backdrop (single layer, no backdrop-blur) */}
+      <div
+        className="heco-aurora pointer-events-none absolute inset-[-12%] rounded-full"
+        style={{
+          background: `
+            radial-gradient(circle at 50% 14%, rgba(212,160,23,0.30), transparent 42%),
+            radial-gradient(circle at 84% 38%, rgba(37,99,235,0.26), transparent 42%),
+            radial-gradient(circle at 72% 82%, rgba(244,63,94,0.24), transparent 42%),
+            radial-gradient(circle at 28% 82%, rgba(139,92,246,0.24), transparent 42%),
+            radial-gradient(circle at 16% 38%, rgba(16,185,129,0.26), transparent 42%),
+            radial-gradient(circle at 50% 50%, rgba(255,255,255,0.55), transparent 55%)
+          `,
+          filter: "blur(14px)",
+        }}
+        aria-hidden="true"
+      />
 
-      {/* SVG Connections */}
+      {/* Connectors + travelling energy particles */}
       <svg
-        className="absolute inset-0 h-full w-full pointer-events-none z-0"
-        viewBox="0 0 500 500"
-        preserveAspectRatio="xMidYMid slice"
+        className="absolute inset-0 z-0 h-full w-full"
+        viewBox="0 0 100 100"
         aria-hidden="true"
       >
-        <defs>
-          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-          
-          {nodes.map((node) => (
-            <linearGradient key={`grad-${node.id}`} id={`grad-${node.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor={node.color} stopOpacity="0.1" />
-              <stop offset="100%" stopColor={node.color} stopOpacity="0.8" />
-            </linearGradient>
-          ))}
-        </defs>
-
         {nodes.map((node) => {
-          const isHovered = hoveredNode === node.id;
-          const isDimmed = hoveredNode !== null && !isHovered;
-
+          const isHovered = hovered === node.id;
+          const isDimmed = hovered !== null && !isHovered;
+          const dx = node.x - 50;
+          const dy = node.y - 50;
           return (
-            <g
-              key={`path-${node.id}`}
-              className={`transition-all duration-500 ${isDimmed ? "opacity-10" : "opacity-100"}`}
-            >
-              {/* Thick invisible path for hover area if we wanted to make paths interactive */}
-              
-              {/* Base path */}
-              <path
-                id={`curve-${node.id}`}
-                d={node.path}
-                fill="none"
-                stroke={`url(#grad-${node.id})`}
-                strokeWidth={isHovered ? "3" : "2"}
-                strokeDasharray={isHovered ? "none" : "6 6"}
-                className={`transition-all duration-500 ${isHovered ? "opacity-100" : "opacity-40"}`}
+            <g key={`link-${node.id}`}>
+              {/* faint base rail */}
+              <line
+                x1="50"
+                y1="50"
+                x2={node.x}
+                y2={node.y}
+                stroke={node.glow}
+                strokeWidth={0.6}
+                strokeLinecap="round"
+                style={{
+                  opacity: isDimmed ? 0.08 : 0.2,
+                  transition: "opacity 0.4s ease",
+                }}
               />
-              
-              {/* Animated glowing particle along the path */}
+              {/* flowing energy line */}
+              <line
+                className="heco-flow"
+                x1="50"
+                y1="50"
+                x2={node.x}
+                y2={node.y}
+                stroke={node.glow}
+                strokeWidth={isHovered ? 1.4 : 0.9}
+                strokeLinecap="round"
+                style={{
+                  opacity: isHovered ? 1 : isDimmed ? 0.12 : 0.55,
+                  transition: "opacity 0.4s ease, stroke-width 0.4s ease",
+                }}
+              />
+              {/* travelling glow particle */}
               <circle
-                r={isHovered ? "5" : "3.5"}
-                fill={node.color}
-                filter="url(#glow)"
-                className="motion-reduce:hidden"
-              >
-                <animateMotion
-                  dur={isHovered ? "3s" : "6s"}
-                  repeatCount="indefinite"
-                  begin={node.delay}
-                  calcMode="linear"
-                >
-                  <mpath href={`#curve-${node.id}`} />
-                </animateMotion>
-                <animate
-                  attributeName="opacity"
-                  values="0;1;1;0"
-                  keyTimes="0;0.1;0.9;1"
-                  dur={isHovered ? "3s" : "6s"}
-                  repeatCount="indefinite"
-                  begin={node.delay}
-                />
-              </circle>
+                className="heco-particle"
+                cx="50"
+                cy="50"
+                r={isHovered ? 1.5 : 1.1}
+                fill={node.glow}
+                style={
+                  {
+                    "--dx": `${dx}`,
+                    "--dy": `${dy}`,
+                    animationDelay: `${nodes.indexOf(node) * 0.7}s`,
+                    opacity: isDimmed ? 0 : 1,
+                    filter: `drop-shadow(0 0 2px ${node.glow})`,
+                    transition: "opacity 0.4s ease",
+                  } as React.CSSProperties
+                }
+              />
             </g>
           );
         })}
       </svg>
 
-      {/* Central Hub */}
-      <div 
-        className="absolute left-1/2 top-1/2 z-10 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
-        onMouseEnter={() => setHoveredNode(null)}
-      >
-        {/* Pulsing rings */}
-        <div className="absolute inset-0 rounded-full border border-primary/20 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]" />
-        <div className="absolute inset-2 rounded-full border border-primary/30 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite_1s]" />
-        
-        {/* Core orb */}
-        <div className="relative flex h-24 w-24 items-center justify-center rounded-full border border-white/60 bg-white/80 backdrop-blur-md shadow-[0_0_40px_rgba(0,0,0,0.1)] transition-transform duration-500 hover:scale-110">
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/10 to-transparent" />
-          <span className="relative text-center font-heading text-sm font-bold leading-tight tracking-tight text-primary">
-            Roma<br />Ecosystem
-          </span>
+      {/* Central hub */}
+      <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
+        <div className="relative flex h-28 w-28 items-center justify-center sm:h-32 sm:w-32">
+          {/* spinning multi-colour ring tying every branch together */}
+          <div
+            className="heco-spin absolute rounded-full"
+            style={{
+              inset: "-16%",
+              background:
+                "conic-gradient(from 0deg, #D4A017, #3B82F6, #F43F5E, #8B5CF6, #10B981, #D4A017)",
+              WebkitMask:
+                "radial-gradient(closest-side, transparent 68%, #000 70%)",
+              mask: "radial-gradient(closest-side, transparent 68%, #000 70%)",
+              opacity: 0.95,
+            }}
+            aria-hidden="true"
+          />
+          {/* expanding pulse rings */}
+          <div className="heco-pulse-ring absolute inset-0 rounded-full bg-[#1B4332]/15" />
+          <div
+            className="heco-pulse-ring absolute inset-0 rounded-full bg-[#1B4332]/15"
+            style={{ animationDelay: "1.5s" }}
+          />
+          {/* core orb */}
+          <div
+            className="relative flex h-full w-full flex-col items-center justify-center rounded-full text-center shadow-[0_10px_40px_-8px_rgba(27,67,50,0.6)]"
+            style={{
+              background:
+                "radial-gradient(circle at 30% 25%, #2D6A4F 0%, #1B4332 70%)",
+            }}
+          >
+            <span className="px-2 font-heading text-[13px] font-bold leading-tight tracking-tight text-white sm:text-sm">
+              {get("hubTitle", "Roma Ecosystem")}
+            </span>
+            <span className="mt-1 text-[9px] font-medium uppercase tracking-[0.15em] text-[#D4A017]">
+              {get("hubSubtitle", "One network")}
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Orbital Nodes */}
-      {nodes.map((node) => {
-        const isHovered = hoveredNode === node.id;
-        const isDimmed = hoveredNode !== null && !isHovered;
+      {/* Branch nodes */}
+      {nodes.map((node, i) => {
+        const isHovered = hovered === node.id;
+        const isDimmed = hovered !== null && !isHovered;
         const Icon = node.icon;
-
         return (
           <div
             key={node.id}
-            className={`absolute z-20 w-40 sm:w-48 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ${
-              isDimmed ? "opacity-40 scale-95 blur-[1px]" : "opacity-100 scale-100 blur-0"
-            } ${isHovered ? "z-30" : ""}`}
-            style={{ 
-              left: `${node.x}%`, 
-              top: `${node.y}%`,
-              animation: `float 6s ease-in-out infinite ${node.floatDelay}`
-            }}
-            onMouseEnter={() => setHoveredNode(node.id)}
-            onMouseLeave={() => setHoveredNode(null)}
+            className="absolute z-20 -translate-x-1/2 -translate-y-1/2"
+            style={{ left: `${node.x}%`, top: `${node.y}%` }}
+            onMouseEnter={() => setHovered(node.id)}
           >
             <div
-              className={`group relative overflow-hidden rounded-2xl border bg-white/70 backdrop-blur-xl transition-all duration-500 ${
-                isHovered 
-                  ? `shadow-[0_20px_40px_-15px_${node.color}40] -translate-y-2 border-white/80` 
-                  : "shadow-[0_8px_30px_rgba(0,0,0,0.04)] border-white/40"
-              }`}
+              className="heco-node"
+              style={{ animationDelay: `${i * 0.9}s` }}
             >
-              {/* Glass reflection effect */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/40 via-white/0 to-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              
-              {/* Header */}
               <div
-                className={`relative flex items-center gap-3 border-b px-4 py-3 transition-colors duration-500 ${node.border} bg-gradient-to-r ${node.bg}`}
+                className="group flex w-28 items-center gap-2.5 rounded-2xl p-2.5 text-left transition-all duration-300 sm:w-36 sm:gap-3 sm:p-3"
+                style={{
+                  background: `linear-gradient(135deg, ${node.from}, ${node.to})`,
+                  boxShadow: isHovered
+                    ? `0 16px 36px -10px ${node.glow}, 0 0 0 1px rgba(255,255,255,0.25) inset`
+                    : `0 8px 22px -12px ${node.glow}, 0 0 0 1px rgba(255,255,255,0.18) inset`,
+                  transform: isHovered ? "scale(1.06)" : "scale(1)",
+                  opacity: isDimmed ? 0.55 : 1,
+                  filter: isDimmed ? "saturate(0.7)" : "none",
+                }}
               >
-                <div 
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white shadow-sm transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
-                  style={{ color: node.color }}
-                >
-                  <Icon size={16} strokeWidth={2.5} />
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white/25 text-white shadow-sm backdrop-blur-[2px] transition-transform duration-300 group-hover:scale-110 sm:h-9 sm:w-9">
+                  <Icon size={17} strokeWidth={2.5} />
                 </div>
-                <span className="text-sm font-bold tracking-tight text-text">
-                  {node.title}
-                </span>
-              </div>
-              
-              {/* Items */}
-              <div className="relative px-4 py-3 bg-white/40">
-                <ul className="space-y-2">
-                  {node.items.map((item, idx) => (
-                    <li
-                      key={idx}
-                      className="flex items-center gap-2 text-xs font-medium text-text-muted transition-colors duration-300 group-hover:text-text"
-                    >
-                      <span 
-                        className="block h-1.5 w-1.5 rounded-full transition-all duration-300 group-hover:scale-125"
-                        style={{ backgroundColor: isHovered ? node.color : 'rgba(0,0,0,0.2)' }}
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <div className="min-w-0">
+                  <p className="truncate text-xs font-bold leading-tight text-white sm:text-sm">
+                    {node.title}
+                  </p>
+                  <p className="truncate text-[10px] font-medium leading-tight text-white/85 sm:text-[11px]">
+                    {node.desc}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         );
       })}
-
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes float {
-          0%, 100% { transform: translate(-50%, -50%); }
-          50% { transform: translate(-50%, calc(-50% - 10px)); }
-        }
-      `}} />
     </div>
   );
 }
