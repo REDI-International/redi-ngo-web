@@ -385,6 +385,10 @@ h1, h2, h3, h4 {
 }
 
 /* Live editor */
+body[data-live-editing] iframe {
+  pointer-events: none !important;
+}
+
 .live-editor-block {
   position: relative;
 }

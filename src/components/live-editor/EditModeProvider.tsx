@@ -73,6 +73,17 @@ export function EditModeProvider({
     return () => window.removeEventListener("beforeunload", handler);
   }, [dirty]);
 
+  useEffect(() => {
+    if (isEditing) {
+      document.body.dataset.liveEditing = "true";
+    } else {
+      delete document.body.dataset.liveEditing;
+    }
+    return () => {
+      delete document.body.dataset.liveEditing;
+    };
+  }, [isEditing]);
+
   const value = useMemo(
     () => ({
       canEdit,

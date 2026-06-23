@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { SectionHeading } from "@/components/SectionHeading";
+import { YouTubeFeaturedEmbed } from "@/components/YouTubeFeaturedEmbed";
 import {
   YOUTUBE_CHANNEL_URL,
   featuredVideoId,
-  youtubeEmbedUrl,
   youtubeThumbnailUrl,
   youtubeVideos,
   youtubeWatchUrl,
@@ -33,16 +33,9 @@ export async function YouTubeSection({ locale, compact = false }: YouTubeSection
 
         <div className={`grid gap-8 ${compact ? "" : "lg:grid-cols-5 lg:gap-10"}`}>
           <div className={compact ? "" : "lg:col-span-3"}>
-            <div className="overflow-hidden rounded-2xl bg-black shadow-lg ring-1 ring-black/5">
+            <div className="youtube-featured-embed isolate overflow-hidden rounded-2xl bg-black shadow-lg ring-1 ring-black/5">
               <div className="relative aspect-video">
-                <iframe
-                  src={youtubeEmbedUrl(featuredVideoId)}
-                  title={youtubeVideos[0].title[locale]}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full border-0"
-                />
+                <YouTubeFeaturedEmbed videoId={featuredVideoId} title={youtubeVideos[0].title[locale]} />
               </div>
             </div>
             <p className="mt-3 text-sm font-medium text-text">{youtubeVideos[0].title[locale]}</p>

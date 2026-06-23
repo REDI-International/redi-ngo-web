@@ -18,7 +18,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { useEditMode } from "./EditModeProvider";
 import { LiveEditorToolbar, EditingBanner } from "./LiveEditorToolbar";
 import { BlockEditorPanel } from "./BlockEditorPanel";
@@ -44,13 +44,13 @@ function SortableBlockShell({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.6 : 1,
+    opacity: isDragging ? 0.85 : 1,
   };
 
   if (!block.published) {
     return (
-      <div ref={setNodeRef} style={style} className="relative opacity-50">
-        <div className="rounded-xl border-2 border-dashed border-gray-300 p-8 text-center text-sm text-gray-500">
+      <div ref={setNodeRef} style={style} className="relative">
+        <div className="rounded-xl border-2 border-dashed border-amber-300/80 bg-amber-50/50 p-8 text-center text-sm text-amber-900">
           Hidden: {block.title ?? BLOCK_TYPE_LABELS[block.blockType]}
         </div>
       </div>
@@ -61,14 +61,14 @@ function SortableBlockShell({
     <div
       ref={setNodeRef}
       style={style}
-      className={`group relative ${isSelected ? "ring-2 ring-amber-400 ring-offset-2" : ""}`}
+      className={`group relative rounded-xl ${isSelected ? "ring-2 ring-amber-400 ring-offset-2" : ""}`}
     >
-      <div className="pointer-events-none absolute inset-0 z-10 rounded-xl border-2 border-dashed border-transparent transition group-hover:border-amber-400/60" />
+      <div className="pointer-events-none absolute inset-0 z-[1] rounded-xl border-2 border-dashed border-transparent transition group-hover:border-amber-400/60" />
       <button
         type="button"
         {...attributes}
         {...listeners}
-        className="absolute left-2 top-2 z-20 flex cursor-grab items-center gap-1 rounded-lg bg-amber-400/90 px-2 py-1 text-xs font-semibold text-amber-950 opacity-0 shadow transition group-hover:opacity-100 active:cursor-grabbing"
+        className="absolute left-2 top-2 z-[3] flex cursor-grab items-center gap-1 rounded-lg bg-amber-400/90 px-2 py-1 text-xs font-semibold text-amber-950 opacity-0 shadow transition group-hover:opacity-100 active:cursor-grabbing"
       >
         <GripVertical className="h-3.5 w-3.5" />
         Drag
@@ -76,13 +76,11 @@ function SortableBlockShell({
       <button
         type="button"
         onClick={onSelect}
-        className="absolute right-2 top-2 z-20 rounded-lg bg-white/90 px-2 py-1 text-xs font-semibold text-primary opacity-0 shadow transition group-hover:opacity-100"
+        className="absolute right-2 top-2 z-[3] rounded-lg bg-white/90 px-2 py-1 text-xs font-semibold text-primary opacity-0 shadow transition group-hover:opacity-100"
       >
         Edit
       </button>
-      <div onClick={onSelect} className="cursor-pointer">
-        {children}
-      </div>
+      <div className="relative z-0">{children}</div>
     </div>
   );
 }
@@ -194,7 +192,11 @@ export function LivePageEditor({
 
   return (
     <>
-      {canEdit && <LiveEditorToolbar onSave={handleSave} saving={saving} />}
+      {canEdit && (
+        <Suspense fallback={null}>
+          <LiveEditorToolbar onSave={handleSave} saving={saving} />
+        </Suspense>
+      )}
       {canEdit && isEditing && <EditingBanner />}
 
       {isEditing && canEdit && dbConfigured ? (
@@ -252,12 +254,12 @@ export function LivePageEditor({
 
               {!hasBlocks && fallbackContent && (
                 <div className="relative mt-8">
-                  <div className="absolute inset-0 z-10 flex items-start justify-center bg-white/60 pt-8 backdrop-blur-[1px]">
-                    <p className="rounded-full bg-white px-4 py-2 text-sm font-medium shadow">
+                  <div className="pointer-events-none absolute inset-0 z-[1] flex items-start justify-center pt-8">
+                    <p className="rounded-full border border-amber-200 bg-white/95 px-4 py-2 text-sm font-medium text-amber-950 shadow-sm">
                       Default content preview — add sections above to customize
                     </p>
                   </div>
-                  {fallbackContent}
+                  <div className="pointer-events-none select-none opacity-90">{fallbackContent}</div>
                 </div>
               )}
             </div>

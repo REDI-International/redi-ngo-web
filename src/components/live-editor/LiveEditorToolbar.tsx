@@ -2,15 +2,29 @@
 
 import { Eye, Pencil, Save, Loader2, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEditMode } from "./EditModeProvider";
 
 export function LiveEditorToolbar({ onSave, saving }: { onSave: () => void; saving: boolean }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { canEdit, dbConfigured, isEditing, setIsEditing, dirty, pageSlug } = useEditMode();
+
+  const exitEditMode = () => {
+    setIsEditing(false);
+    const params = new URLSearchParams(searchParams.toString());
+    if (params.has("edit")) {
+      params.delete("edit");
+      const query = params.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    }
+  };
 
   if (!canEdit) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 z-[150] -translate-x-1/2 px-4 sm:bottom-6">
+    <div className="fixed bottom-4 left-1/2 z-[190] -translate-x-1/2 px-4 sm:bottom-6">
       <div className="flex items-center gap-1 rounded-full border border-black/10 bg-white/90 px-2 py-2 shadow-xl backdrop-blur-xl sm:gap-2 sm:px-3">
         {!dbConfigured ? (
           <span className="px-3 text-xs text-amber-800 sm:text-sm">
@@ -20,7 +34,7 @@ export function LiveEditorToolbar({ onSave, saving }: { onSave: () => void; savi
           <>
             <button
               type="button"
-              onClick={() => setIsEditing(!isEditing)}
+              onClick={() => (isEditing ? exitEditMode() : setIsEditing(true))}
               disabled={!pageSlug}
               className={`flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition sm:px-4 sm:text-sm ${
                 isEditing
