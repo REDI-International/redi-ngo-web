@@ -14,10 +14,14 @@
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx src/db/seed.ts",
     "create-admin": "tsx scripts/create-admin.ts",
+    "create-users": "tsx scripts/create-users.ts",
     "test": "vitest run",
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@neondatabase/serverless": "^1.1.0",
     "@sentry/nextjs": "^10.59.0",
     "@supabase/ssr": "^0.12.0",
@@ -28,6 +32,7 @@
     "lucide-react": "^1.21.0",
     "next": "16.2.9",
     "next-intl": "^4.13.0",
+    "postgres": "^3.4.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "resend": "^6.14.0"

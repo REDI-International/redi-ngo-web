@@ -1,7 +1,11 @@
 import { redirect } from "next/navigation";
 import { isSupabaseConfigured, getAdminUser } from "@/lib/supabase/server";
+import { getAdminSession, mustChangePassword } from "@/lib/admin/auth";
 import { ConfigNotice } from "@/components/admin/ConfigNotice";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { cleanEnvValue } from "@/lib/env";
+
+export const dynamic = "force-dynamic";
 
 export default async function DashLayout({ children }: { children: React.ReactNode }) {
   if (!isSupabaseConfigured()) {
@@ -11,14 +15,30 @@ export default async function DashLayout({ children }: { children: React.ReactNo
   const user = await getAdminUser();
   if (!user) redirect("/admin/login");
 
-  const dbConfigured = Boolean(process.env.DATABASE_URL);
+  const session = await getAdminSession();
+  if (!session) {
+    redirect("/admin/login");
+  }
+
+  if (mustChangePassword(session.profile)) {
+    redirect("/admin/change-password");
+  }
+
+  const dbConfigured = Boolean(cleanEnvValue(process.env.DATABASE_URL ?? ""));
+  const serviceRoleConfigured = Boolean(cleanEnvValue(process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""));
 
   return (
-    <AdminShell email={user.email}>
+    <AdminShell email={user.email} role={session.role}>
       {!dbConfigured && (
         <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-          <strong>Database not connected.</strong> Add <code className="rounded bg-amber-100 px-1">DATABASE_URL</code> to
-          enable content editing. Auth works; data changes require the Postgres connection string.
+          <strong>Database not connected.</strong> Add <code className="rounded bg-amber-100 px-1">DATABASE_URL</code>{" "}
+          in Vercel and <code className="rounded bg-amber-100 px-1">.env.local</code> to enable content editing.
+        </div>
+      )}
+      {!serviceRoleConfigured && (
+        <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          <strong>User management limited.</strong> Add{" "}
+          <code className="rounded bg-amber-100 px-1">SUPABASE_SERVICE_ROLE_KEY</code> to invite users and upload media.
         </div>
       )}
       {children}

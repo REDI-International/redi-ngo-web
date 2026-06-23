@@ -13,6 +13,7 @@ import { stats } from "@/content/site";
 import { projects } from "@/content/projects";
 import { getNewsArticles, getFeaturedOpportunities } from "@/lib/content";
 import { getFeaturedSocialStories, socialPages } from "@/lib/social";
+import { HomePageBlocks, getHomeHeroOverride } from "@/components/HomePageBlocks";
 
 export default async function HomePage({
   params,
@@ -32,6 +33,7 @@ export default async function HomePage({
     getFeaturedOpportunities(4),
   ]);
   const socialStories = getFeaturedSocialStories(6);
+  const heroOverride = await getHomeHeroOverride();
 
   const ecosystemLabels = {
     businessClubs: t("ecoBusinessClubs"),
@@ -89,13 +91,14 @@ export default async function HomePage({
   return (
     <>
       <Hero
-        title={t("heroTitle")}
-        subtitle={t("heroSubtitle")}
+        title={heroOverride?.title ?? t("heroTitle")}
+        subtitle={heroOverride?.subtitle ?? t("heroSubtitle")}
         ecosystemIntro={t("heroEcosystemIntro")}
         euBadgeLabel={t("euBadgeLabel")}
         ecosystemLabels={ecosystemLabels}
         primaryCta={{ label: t("viewProjects"), href: "/projects" }}
         secondaryCta={{ label: t("openOpportunities"), href: "/work-with-us/tenders" }}
+        imageSrc={heroOverride?.image}
       />
 
       <EmpowermentStatement
@@ -198,6 +201,8 @@ export default async function HomePage({
           ))}
         </div>
       </section>
+
+      <HomePageBlocks />
     </>
   );
 }

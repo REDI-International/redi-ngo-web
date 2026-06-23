@@ -74,11 +74,22 @@ export const contactMessages = pgTable("contact_messages", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
 
+export const adminUsers = pgTable("admin_users", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  email: text("email").notNull().unique(),
+  role: text("role").notNull().default("editor"),
+  supabaseUserId: uuid("supabase_user_id"),
+  mustChangePassword: boolean("must_change_password").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
 /** Editable homepage / page blocks (hero, stats, CTAs, etc.). */
 export const pageSections = pgTable("page_sections", {
   id: uuid("id").primaryKey().defaultRandom(),
   pageKey: text("page_key").notNull().default("homepage"),
   sectionKey: text("section_key").notNull(),
+  language: text("language").notNull().default("en"),
   title: text("title"),
   content: jsonb("content"),
   published: boolean("published").notNull().default(true),
@@ -96,5 +107,7 @@ export type NewGalleryImage = typeof galleryImages.$inferInsert;
 export type NavItem = typeof navItems.$inferSelect;
 export type NewNavItem = typeof navItems.$inferInsert;
 export type SiteSetting = typeof siteSettings.$inferSelect;
+export type AdminUser = typeof adminUsers.$inferSelect;
+export type NewAdminUser = typeof adminUsers.$inferInsert;
 export type PageSection = typeof pageSections.$inferSelect;
 export type NewPageSection = typeof pageSections.$inferInsert;

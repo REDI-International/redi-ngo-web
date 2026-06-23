@@ -13,7 +13,7 @@ export default async function PagesAdminPage() {
       <PageHeader
         title="Page sections"
         description="Manage homepage blocks, hero content, and editable page sections."
-        action={{ href: "/admin/pages/new", label: "New section" }}
+        action={{ href: "/admin/pages/home", label: "Homepage builder" }}
       />
       {sections.length === 0 ? (
         <EmptyState

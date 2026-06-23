@@ -16,22 +16,32 @@ import {
   ChevronRight,
   ExternalLink,
   LogOut,
+  Shield,
 } from "lucide-react";
 import { signOut } from "@/lib/admin/auth-actions";
+import { canManageUsers, type AdminRole } from "@/lib/admin/roles";
 
-const LINKS = [
+const BASE_LINKS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/opportunities", label: "Opportunities", icon: Briefcase },
   { href: "/admin/news", label: "News", icon: Newspaper },
   { href: "/admin/media", label: "Media", icon: ImageIcon },
   { href: "/admin/menu", label: "Navigation", icon: Menu },
   { href: "/admin/pages", label: "Page sections", icon: Layers },
+  { href: "/admin/pages/home", label: "Homepage builder", icon: Layers },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
-export function AdminSidebar({ email }: { email?: string | null }) {
+export function AdminSidebar({ email, role }: { email?: string | null; role?: AdminRole }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+
+  const links = [
+    ...BASE_LINKS,
+    ...(role && canManageUsers(role)
+      ? [{ href: "/admin/users", label: "Users", icon: Shield, exact: false as const }]
+      : []),
+  ];
 
   return (
     <aside
@@ -56,7 +66,7 @@ export function AdminSidebar({ email }: { email?: string | null }) {
       </div>
 
       <nav className="flex-1 space-y-0.5 px-2 py-4">
-        {LINKS.map((link) => {
+        {links.map((link) => {
           const active = link.exact ? pathname === link.href : pathname.startsWith(link.href);
           const Icon = link.icon;
           return (

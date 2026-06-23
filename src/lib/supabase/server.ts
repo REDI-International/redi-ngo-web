@@ -1,9 +1,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { cleanEnvValue } from "@/lib/env";
 
 export function isSupabaseConfigured(): boolean {
   return Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_URL ?? "") &&
+      cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ""),
   );
 }
 
@@ -12,8 +14,8 @@ export function isSupabaseConfigured(): boolean {
  * Returns `null` when Supabase env vars are not configured.
  */
 export async function getSupabaseServer() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const url = cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_URL ?? "");
+  const key = cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "");
   if (!url || !key) return null;
 
   const cookieStore = await cookies();

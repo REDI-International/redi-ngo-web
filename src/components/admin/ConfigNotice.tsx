@@ -15,14 +15,7 @@ export function ConfigNotice({ missing }: { missing?: string[] }) {
         <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1b4332]/10">
           <Shield className="h-7 w-7 text-[#1b4332]" />
         </div>
-        <Image
-          src="/brand/redi-logo.png"
-          alt="REDI"
-          width={400}
-          height={189}
-          className="mx-auto mb-6 h-10 w-auto max-w-[140px] object-contain"
-          style={{ width: "auto", height: "2.5rem" }}
-        />
+        <Image src="/brand/redi-logo.png" alt="REDI" width={120} height={57} className="mx-auto mb-6 h-10 w-auto" />
         <h1 className="text-2xl font-semibold tracking-tight text-[#1d1d1f]">CMS setup required</h1>
         <p className="mt-3 text-[15px] leading-relaxed text-[#86868b]">
           The admin panel is installed but needs environment variables before you can sign in and manage content.
@@ -48,10 +41,17 @@ export function ConfigNotice({ missing }: { missing?: string[] }) {
             Activation steps
           </p>
           <ol className="list-decimal space-y-2 pl-4 text-sm text-[#86868b]">
-            <li>Add vars to <code className="text-xs">.env.local</code> and Vercel project settings</li>
-            <li>Run <code className="text-xs">npm run db:migrate</code></li>
-            <li>Run <code className="text-xs">npm run db:seed</code> to import existing content</li>
-            <li>Confirm admin email in Supabase Auth dashboard</li>
+            <li>
+              Supabase → Project <code className="text-xs">zkojldtwgweqvtnokfpn</code> → Settings → API: copy
+              service role key
+            </li>
+            <li>
+              Supabase → Database → Connection string (pooler, port 6543): set as{" "}
+              <code className="text-xs">DATABASE_URL</code>
+            </li>
+            <li>Add vars to <code className="text-xs">.env.local</code> and Vercel → Environment Variables</li>
+            <li>Run <code className="text-xs">vercel env pull .env.local</code> locally after updating Vercel</li>
+            <li>Run <code className="text-xs">npm run db:migrate</code> then <code className="text-xs">npm run create-users</code></li>
             <li>Redeploy and visit <code className="text-xs">/admin/login</code></li>
           </ol>
         </div>

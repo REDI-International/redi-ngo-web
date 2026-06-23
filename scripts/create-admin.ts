@@ -10,29 +10,10 @@
  *   npm run create-admin -- '<password>' '<email>'
  *
  * Defaults: email = petrica@redi-ngo.eu
- * The password is taken from the CLI (or ADMIN_PASSWORD env) so it is never
- * committed to the repository.
+ * Prefer `npm run create-users` for the full team roster.
  */
-import { readFileSync, existsSync } from "node:fs";
-import { resolve } from "node:path";
 import { createClient } from "@supabase/supabase-js";
-
-function loadLocalEnv() {
-  const file = resolve(process.cwd(), ".env.local");
-  if (!existsSync(file)) return;
-  for (const line of readFileSync(file, "utf8").split("\n")) {
-    const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
-    if (!m) continue;
-    const key = m[1];
-    let value = m[2].trim();
-    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
-      value = value.slice(1, -1);
-    }
-    // `vercel env pull` can append a literal "\n" to single-line values.
-    value = value.replace(/\\n$/, "").replace(/[\r\n]+$/, "").trim();
-    if (!process.env[key]) process.env[key] = value;
-  }
-}
+import { loadLocalEnv } from "./lib/load-env";
 
 async function main() {
   loadLocalEnv();
@@ -71,10 +52,7 @@ async function main() {
       console.log("Email confirmation is disabled — you can sign in now at /admin/login");
     } else {
       console.log(
-        "NOTE: email confirmation appears to be ON. Either click the confirmation\n" +
-          "link sent to the inbox, or disable 'Confirm email' in Supabase →\n" +
-          "Authentication → Providers → Email, then re-run, or add the\n" +
-          "SUPABASE_SERVICE_ROLE_KEY for instant auto-confirmed creation.",
+        "NOTE: email confirmation appears to be ON. Add SUPABASE_SERVICE_ROLE_KEY or run npm run create-users.",
       );
     }
     return;
@@ -84,7 +62,6 @@ async function main() {
     auth: { autoRefreshToken: false, persistSession: false },
   });
 
-  // Try to create; if the user already exists, update the password instead.
   const { data, error } = await supabase.auth.admin.createUser({
     email,
     password,
@@ -97,7 +74,6 @@ async function main() {
       console.error("Failed to create admin user:", error.message);
       process.exit(1);
     }
-    // Find the existing user and reset the password.
     const { data: list, error: listErr } = await supabase.auth.admin.listUsers();
     if (listErr) {
       console.error("User exists but lookup failed:", listErr.message);

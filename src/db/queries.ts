@@ -7,11 +7,13 @@ import {
   navItems,
   siteSettings,
   pageSections,
+  adminUsers,
   type Opportunity,
   type NewsPost,
   type GalleryImage,
   type NavItem,
   type PageSection,
+  type AdminUser,
 } from "./schema";
 
 // --- Opportunities (tenders / jobs / grants) ------------------------------
@@ -102,6 +104,25 @@ export async function getPageSectionById(id: string): Promise<PageSection | unde
   const db = getDb();
   if (!db) return undefined;
   const rows = await db.select().from(pageSections).where(eq(pageSections.id, id)).limit(1);
+  return rows[0];
+}
+
+// --- Admin users -----------------------------------------------------------
+
+export async function listAdminUsers(): Promise<AdminUser[]> {
+  const db = getDb();
+  if (!db) return [];
+  return db.select().from(adminUsers).orderBy(asc(adminUsers.email));
+}
+
+export async function getAdminUserByEmail(email: string): Promise<AdminUser | undefined> {
+  const db = getDb();
+  if (!db) return undefined;
+  const rows = await db
+    .select()
+    .from(adminUsers)
+    .where(eq(adminUsers.email, email.toLowerCase()))
+    .limit(1);
   return rows[0];
 }
 

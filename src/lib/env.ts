@@ -1,13 +1,20 @@
+/** Strip trailing literal `\n` that `vercel env pull` sometimes appends. */
+export function cleanEnvValue(value: string): string {
+  return value.replace(/\\n$/, "").replace(/[\r\n]+$/, "").trim();
+}
+
 export function getEnv(key: string): string | undefined {
-  return process.env[key];
+  const value = process.env[key];
+  return value ? cleanEnvValue(value) : undefined;
 }
 
 export function requireEnv(key: string): string {
-  const value = process.env[key];
+  const value = getEnv(key);
   if (!value) throw new Error(`Missing required env var: ${key}`);
   return value;
 }
 
 export function getOptionalEnv(key: string, fallback = ""): string {
-  return process.env[key] ?? fallback;
+  const value = getEnv(key);
+  return value ?? fallback;
 }

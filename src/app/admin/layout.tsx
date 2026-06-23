@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "../globals.css";
 import "./admin.css";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "REDI CMS",
   robots: { index: false, follow: false },
