@@ -42,35 +42,23 @@ export async function ServerBlockRenderer({
         );
       }
       const t = await getTranslations({ locale, namespace: "home" });
-      const ecosystemLabels = {
-        businessClubs: t("ecoBusinessClubs"),
-        rediFund: t("ecoRediFund"),
-        rediRecycling: t("ecoRediRecycling"),
-        grantSupport: t("ecoGrantSupport"),
-        technicalSupport: t("ecoTechnicalSupport"),
-        euProjects: t("ecoEuProjects"),
-        incubator: t("ecoIncubator"),
-        hubTitle: t("ecoHubTitle"),
-        hubSubtitle: t("ecoHubSubtitle"),
-        funding: t("ecoFunding"),
-        learning: t("ecoLearning"),
-        advocacy: t("ecoAdvocacy"),
-        community: t("ecoCommunity"),
-        tools: t("ecoTools"),
-      };
       return (
         <Hero
+          locale={locale as Locale}
           title={block.title ?? t("heroTitle")}
           subtitle={block.subtitle ?? block.body ?? t("heroSubtitle")}
-          ecosystemIntro={t("heroEcosystemIntro")}
           euBadgeLabel={t("euBadgeLabel")}
-          ecosystemLabels={ecosystemLabels}
           primaryCta={{
             label: (block.metadata.primaryCtaLabel as string) ?? t("viewProjects"),
             href: block.link ?? "/projects",
           }}
           secondaryCta={{ label: t("openOpportunities"), href: "/work-with-us/tenders" }}
-          imageSrc={block.imageUrl}
+          showcase={{
+            statValue: t("heroStatValue"),
+            statLabel: t("heroStatLabel"),
+            tag: t("heroShowcaseTag"),
+            coFunded: t("heroCoFunded"),
+          }}
         />
       );
     }

@@ -426,6 +426,42 @@ h1, h2, h3, h4 {
   }
 }
 
+/* ── Hero showcase: gentle staggered reveal (no spinning) ── */
+
+.hs-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: hs-reveal-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hs-reveal-1 {
+  animation-delay: 0.05s;
+}
+.hs-reveal-2 {
+  animation-delay: 0.2s;
+}
+.hs-reveal-3 {
+  animation-delay: 0.32s;
+}
+.hs-reveal-4 {
+  animation-delay: 0.46s;
+}
+
+@keyframes hs-reveal-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hs-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Live editor */
 body[data-live-editing] iframe {
   pointer-events: none !important;

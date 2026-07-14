@@ -30,23 +30,6 @@ export async function StaticHomeContent({ locale }: { locale: string }) {
   ]);
   const socialStories = getFeaturedSocialStories(6);
 
-  const ecosystemLabels = {
-    businessClubs: t("ecoBusinessClubs"),
-    rediFund: t("ecoRediFund"),
-    rediRecycling: t("ecoRediRecycling"),
-    grantSupport: t("ecoGrantSupport"),
-    technicalSupport: t("ecoTechnicalSupport"),
-    euProjects: t("ecoEuProjects"),
-    incubator: t("ecoIncubator"),
-    hubTitle: t("ecoHubTitle"),
-    hubSubtitle: t("ecoHubSubtitle"),
-    funding: t("ecoFunding"),
-    learning: t("ecoLearning"),
-    advocacy: t("ecoAdvocacy"),
-    community: t("ecoCommunity"),
-    tools: t("ecoTools"),
-  };
-
   const pillars = [
     { key: "learn", title: t("pillarLearnTitle"), description: t("pillarLearnDesc"), icon: "learn" as const, color: "#2563EB", bg: "#EEF2FF" },
     { key: "create", title: t("pillarCreateTitle"), description: t("pillarCreateDesc"), icon: "create" as const, color: "#F59E0B", bg: "#FFFBEB" },
@@ -58,13 +41,18 @@ export async function StaticHomeContent({ locale }: { locale: string }) {
   return (
     <>
       <Hero
+        locale={locale as Locale}
         title={t("heroTitle")}
         subtitle={t("heroSubtitle")}
-        ecosystemIntro={t("heroEcosystemIntro")}
         euBadgeLabel={t("euBadgeLabel")}
-        ecosystemLabels={ecosystemLabels}
         primaryCta={{ label: t("viewProjects"), href: "/projects" }}
         secondaryCta={{ label: t("openOpportunities"), href: "/work-with-us/tenders" }}
+        showcase={{
+          statValue: t("heroStatValue"),
+          statLabel: t("heroStatLabel"),
+          tag: t("heroShowcaseTag"),
+          coFunded: t("heroCoFunded"),
+        }}
       />
 
       <EmpowermentStatement
